@@ -16,16 +16,31 @@ Repositorio de **agentes de IA** y **artefactos generados** para el equipo MAGIA
 ## Primer uso — credenciales de Jira (una sola vez)
 
 Los agentes que consultan Jira necesitan un **API token** personal. No va en este repo.
+Generalo en https://id.atlassian.com/manage-profile/security/api-tokens
 
-1. Abrí la **terminal integrada de Cursor**: `` Ctrl+` `` (o *Terminal → New Terminal*).
+Abrí la **terminal integrada de Cursor** (Ctrl+`) en la raíz del repo.
+
+### ¿El pegado falla o solo guarda 1 carácter?
+
+En Cursor, `Read-Host -AsSecureString` solo captura 1 carácter al pegar. Usá una de estas opciones:
+
+**Opción A — archivo de texto (recomendada):**
+1. Pegá el token en un `.txt` (Bloc de notas)
 2. Ejecutá:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/set_credentials.ps1" -TokenFile "C:\Users\tu_usuario\token-jira.txt"
+```
+
+3. Borrá el `.txt` después
+
+**Opción B — pegado visible:**
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/set_credentials.ps1"
 ```
 
-3. Ingresá tu correo de Atlassian y el token generado en  
-   https://id.atlassian.com/manage-profile/security/api-tokens
+El script pide el token en texto visible (se ve un instante, pero pega completo).
 
 Eso guarda las variables en tu perfil de Windows. Los scripts las leen automáticamente en futuras ejecuciones.
 

@@ -1,45 +1,65 @@
 # Guarda las credenciales de Jira como variables de entorno del usuario.
-# El token se ingresa oculto y no queda en el historial de la consola.
 #
-# DONDE EJECUTAR: terminal integrada de Cursor (Ctrl+`) en la raiz del repo AI-Guideline:
+# Uso en terminal de Cursor (Ctrl+`):
 #   powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/set_credentials.ps1"
+#
+# Desde archivo (util si el pegado falla):
+#   powershell -ExecutionPolicy Bypass -File "...\set_credentials.ps1" -TokenFile "C:\ruta\token.txt"
+#
+# NOTA: Read-Host -AsSecureString en Cursor solo captura 1 caracter al pegar.
+#       Este script usa entrada visible, que es la unica forma fiable de pegar aqui.
 
 param(
     [string]$BaseUrl = "https://bancoatlaspy.atlassian.net",
-    [string]$Email
+    [string]$Email = "mariana.ybanez@atlas.com.py",
+    [string]$Token,
+    [string]$TokenFile
 )
+
+if ($TokenFile) {
+    if (-not (Test-Path $TokenFile)) {
+        Write-Error "No existe el archivo: $TokenFile"
+        exit 1
+    }
+    $Token = (Get-Content $TokenFile -Raw).Trim()
+}
 
 if (-not $Email) {
     $Email = Read-Host "Correo de Atlassian"
 }
 
-Write-Host ""
-Write-Host "Genera un token en: https://id.atlassian.com/manage-profile/security/api-tokens"
-$secure = Read-Host "API token (no se muestra)" -AsSecureString
-$token = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
-    [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
-)
+if (-not $Token) {
+    Write-Host ""
+    Write-Host "Genera un token en: https://id.atlassian.com/manage-profile/security/api-tokens"
+    Write-Host ""
+    Write-Host "IMPORTANTE (terminal de Cursor):" -ForegroundColor Yellow
+    Write-Host "  Pega el token COMPLETO y presiona Enter."
+    Write-Host "  Se vera en pantalla un instante - es normal; Cursor no soporta pegado oculto."
+    Write-Host "  Debe mostrar ~190 caracteres al guardar."
+    Write-Host ""
+    $Token = Read-Host "API token"
+    $Token = $Token.Trim()
+}
 
-if ([string]::IsNullOrWhiteSpace($token)) {
-    Write-Error "No se ingreso ningun token."
+if ([string]::IsNullOrWhiteSpace($Token) -or $Token.Length -lt 20) {
+    $len = $Token.Length
+    Write-Error "Token invalido: $len caracteres. Usa -TokenFile con un archivo .txt"
     exit 1
 }
 
-# Persistente para sesiones futuras.
 [Environment]::SetEnvironmentVariable("JIRA_BASE_URL", $BaseUrl, "User")
 [Environment]::SetEnvironmentVariable("JIRA_EMAIL", $Email, "User")
-[Environment]::SetEnvironmentVariable("JIRA_API_TOKEN", $token, "User")
+[Environment]::SetEnvironmentVariable("JIRA_API_TOKEN", $Token, "User")
 
-# Disponible ya mismo en esta sesion.
-$env:JIRA_BASE_URL = $BaseUrl
-$env:JIRA_EMAIL = $Email
-$env:JIRA_API_TOKEN = $token
+[Environment]::SetEnvironmentVariable("JIRA_BASE_URL", $BaseUrl, "Process")
+[Environment]::SetEnvironmentVariable("JIRA_EMAIL", $Email, "Process")
+[Environment]::SetEnvironmentVariable("JIRA_API_TOKEN", $Token, "Process")
 
 Write-Host ""
-Write-Host "Credenciales guardadas para el usuario actual." -ForegroundColor Green
-Write-Host "  JIRA_BASE_URL = $BaseUrl"
-Write-Host "  JIRA_EMAIL    = $Email"
-Write-Host "  JIRA_API_TOKEN = (oculto, $($token.Length) caracteres)"
+Write-Host "Credenciales guardadas." -ForegroundColor Green
+Write-Host "  JIRA_BASE_URL  = $BaseUrl"
+Write-Host "  JIRA_EMAIL     = $Email"
+Write-Host "  JIRA_API_TOKEN = $($Token.Length) caracteres"
 Write-Host ""
-Write-Host "Verificacion rapida:" -ForegroundColor Cyan
-Write-Host '  python scripts/fetch_sprint_data.py --board-id 1607 -o out/raw.json'
+Write-Host "Siguiente paso:" -ForegroundColor Cyan
+Write-Host "  powershell -ExecutionPolicy Bypass -File AI-Agents/sprint-health-check/scripts/run_health_check.ps1"

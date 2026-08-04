@@ -25,13 +25,20 @@ New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
 $rawPath = Join-Path $outputDir "raw.json"
 $metricsPath = Join-Path $outputDir "metrics.json"
 
-# Verificar credenciales antes de llamar a Jira
-$token = [Environment]::GetEnvironmentVariable("JIRA_API_TOKEN", "User")
-if (-not $token) { $token = $env:JIRA_API_TOKEN }
-if (-not $token) {
+# Cargar credenciales del perfil de Windows al proceso actual (Python no las ve solo).
+foreach ($name in @("JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN")) {
+    $current = [Environment]::GetEnvironmentVariable($name, "Process")
+    if (-not $current) {
+        $stored = [Environment]::GetEnvironmentVariable($name, "User")
+        if ($stored) { [Environment]::SetEnvironmentVariable($name, $stored, "Process") }
+    }
+}
+
+$token = [Environment]::GetEnvironmentVariable("JIRA_API_TOKEN", "Process")
+if (-not $token -or $token.Length -lt 10) {
     Write-Host ""
-    Write-Host "Faltan credenciales de Jira." -ForegroundColor Red
-    Write-Host "Ejecuta primero (una sola vez, en la terminal de Cursor con Ctrl+`):"
+    Write-Host "Credenciales de Jira invalidas o incompletas (token: $($token.Length) caracteres)." -ForegroundColor Red
+    Write-Host "Vuelve a ejecutar (una sola vez):"
     Write-Host '  powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/set_credentials.ps1"'
     Write-Host ""
     exit 1
