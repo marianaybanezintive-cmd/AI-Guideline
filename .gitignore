@@ -1,0 +1,19 @@
+# Credenciales — nunca commitear
+.env
+*.env
+credentials.json
+
+# Artefactos intermedios del pipeline (el .md final sí se commitea)
+AI-Outputs/sprint-health-check/raw.json
+AI-Outputs/sprint-health-check/metrics.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

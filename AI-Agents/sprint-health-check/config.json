@@ -1,0 +1,50 @@
+{
+  "board_id": 1607,
+  "project_key": "MAGIA",
+  "jira_base_url": "https://bancoatlaspy.atlassian.net",
+  "output_dir": "AI-Outputs/sprint-health-check",
+
+  "statuses": {
+    "todo": ["Tareas por hacer", "To Do", "Backlog", "Por hacer"],
+    "in_progress": ["En Curso", "In Progress", "En revisión", "En revision", "In Review", "Code Review"],
+    "qa": ["Pruebas QA", "QA", "Testing", "En QA"],
+    "done": ["Finalizado", "Done", "Listo", "Cerrado"],
+    "cancelled": ["Cancelado", "Cancelled", "Descartado"]
+  },
+
+  "subtask_patterns": {
+    "dev": [
+      "^\\s*desarrollo",
+      "\\bdesarrollo\\b",
+      "\\bdesarrollar\\b",
+      "\\bdevelopment\\b",
+      "^\\s*dev\\b"
+    ],
+    "qa_automation": [
+      "qa[\\s\\-_]*automation",
+      "automatizaci[oó]n[\\s\\-_]*(de[\\s\\-_]*)?(pruebas|tests?)",
+      "^\\s*implementar automation"
+    ],
+    "qa_execution": [
+      "ejecu(ci[oó]n|tar|cion)[\\s\\-_]*(de[\\s\\-_]*)?(pruebas|tests?|casos)",
+      "ejecuci[oó]n[\\s\\-_]*tests?"
+    ],
+    "qa_manual": [
+      "qa[\\s\\-_]*manual",
+      "^\\s*qa[\\s\\-_]*-?[\\s\\-_]*verificar"
+    ]
+  },
+
+  "thresholds": {
+    "stale_days": 5,
+    "idle_days": 3,
+    "wip_limit_per_person": 3,
+    "qa_aging_warning_days": 3
+  },
+
+  "estimation_required_types": ["Historia", "Story", "Tarea", "Task", "Error", "Bug"],
+  "estimate_subtasks": false,
+  "bug_issue_types": ["Error", "Bug", "Defecto", "Errores"],
+
+  "goal_overrides": {}
+}
