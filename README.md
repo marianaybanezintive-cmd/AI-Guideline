@@ -6,6 +6,18 @@ Repositorio de **agentes de IA** y **artefactos generados** para el equipo MAGIA
 |---------|-----------|
 | [`AI-Agents/`](AI-Agents/) | Definición de agentes (skills, scripts, configuración) |
 | [`AI-Outputs/`](AI-Outputs/) | Informes y outputs generados por cada agente |
+| [`config.json`](config.json) | Config global del repo (p. ej. commit/push a GitHub automático o manual) |
+
+## Commit y push a GitHub
+
+Al crear un agente o generar outputs, el comportamiento de **commit/push** se controla en [`config.json`](config.json):
+
+| `git_sync.mode` | Comportamiento |
+|-----------------|----------------|
+| `manual` (default) | El agente deja los archivos listos y pregunta antes de commit/push |
+| `automatic` | El agente hace commit y push al terminar, sin pedir confirmación |
+
+Detalle: [`docs/git-sync.md`](docs/git-sync.md).
 
 ## Agentes disponibles
 
@@ -55,7 +67,7 @@ Desde la raíz del repo:
 powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/run_health_check.ps1"
 ```
 
-El informe queda en `AI-Outputs/sprint-health-check/` listo para commitear.
+El informe queda en `AI-Outputs/sprint-health-check/`. Según `git_sync.mode` en `config.json`, el agente pide confirmación o hace commit/push solo.
 
 ## Generar arquitectura desde historias Jira
 

@@ -73,7 +73,7 @@ para el modo degradado.
 powershell -ExecutionPolicy Bypass -File "AI-Agents/sprint-health-check/scripts/run_health_check.ps1"
 ```
 
-Genera el `.md` en `AI-Outputs/sprint-health-check/` listo para commitear a GitHub.
+Genera el `.md` en `AI-Outputs/sprint-health-check/`. Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
 
 Copiá esta checklist si preferís paso a paso:
 
@@ -155,6 +155,7 @@ Criterios de interpretación en [references/scrum-criteria.md](references/scrum-
 - [ ] Las secciones sin hallazgos dicen explícitamente que no hay registros
 - [ ] La sección 16 tiene acciones concretas con responsable
 - [ ] Se informó al usuario la ruta del `.md` generado
+- [ ] Git sync según `config.json` → `git_sync` (manual: preguntar; automatic: commit + push)
 
 ## Reglas de QA verificadas (sección 9)
 

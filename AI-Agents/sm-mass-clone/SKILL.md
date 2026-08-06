@@ -133,6 +133,8 @@ Con resumen de filtros, conteos ok/fail y tabla:
 
 En el chat: confirmá la ruta del reporte y el conteo (ok / fail). No pegues el MD completo salvo que lo pidan.
 
+Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
+
 ## Checklist de cierre
 
 ```
@@ -142,6 +144,7 @@ En el chat: confirmá la ruta del reporte y el conteo (ok / fail). No pegues el 
 - [ ] Dry-run mostrado y confirmado por el usuario
 - [ ] Clones creados con descripción, parent, sprint, link y assignee
 - [ ] Reporte .md en AI-Outputs/sm-mass-clone/
+- [ ] Git sync según config.json → git_sync (manual: preguntar; automatic: commit + push)
 ```
 
 ## Criterios Scrum Master (resumen)

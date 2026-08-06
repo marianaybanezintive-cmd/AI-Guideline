@@ -193,6 +193,7 @@ Incluye:
 3. Lista breve de decisiones clave (FE/BFF/BE, stack inferido si aplica)
 4. Supuestos y preguntas abiertas
 5. Comando para regenerar PNG
+6. Git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
 
 **No** vuelques diagramas completos en el chat salvo que el usuario lo pida.
 

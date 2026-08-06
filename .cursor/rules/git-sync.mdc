@@ -1,0 +1,45 @@
+---
+description: Commit/push a GitHub según config.json (manual vs automatic) al crear agentes o generar outputs
+alwaysApply: true
+---
+
+# Git sync — AI-Guideline
+
+Antes de hacer **commit** o **push** en este repo, leé la raíz del repo:
+
+`config.json` → clave `git_sync`.
+
+## Valores
+
+| `git_sync.mode` | Comportamiento |
+|-----------------|----------------|
+| `manual` (default) | Tras crear/editar un agente o generar outputs, **no** hagas commit ni push. Informá las rutas tocadas y preguntá si querés commit/push. |
+| `automatic` | Tras crear/editar un agente o generar outputs, hacé **commit** y **push** sin pedir confirmación. |
+
+## Cuándo aplica
+
+Respetá `git_sync.apply_to`:
+
+- `new_agents: true` → cambios bajo `AI-Agents/` (agente nuevo o edición de skill/config/scripts)
+- `agent_outputs: true` → archivos generados bajo `AI-Outputs/`
+
+Si `apply_to` tiene un flag en `false`, ese alcance queda siempre en modo manual (solo informar rutas).
+
+## Modo automatic — reglas
+
+1. Solo stagear archivos del alcance de la corrida (el agente/output tocado). No mezclar cambios ajenos.
+2. No commitear secretos (`.env`, tokens, `credentials.json`, etc.).
+3. Respetar `.gitignore` (p. ej. `raw.json` / `metrics.json` de sprint-health-check).
+4. Mensaje de commit corto en español o inglés, enfocado en el *porqué* (ej. `docs(sprint-health-check): informe Sprint 4` o `feat(po-architect-agent): paquete arquitectura MAGIA-xxx`).
+5. Push a `git_sync.remote` (default `origin`) en la rama actual.
+6. Si commit o push fallan, reportá el error y no reintentés con `--force` ni `--no-verify`.
+
+## Modo manual — reglas
+
+1. Al cerrar la tarea, listá las rutas creadas/modificadas.
+2. Preguntá explícitamente: ¿querés que haga commit y push?
+3. Solo ejecutá git si el usuario confirma.
+
+## Override en el chat
+
+Si el usuario pide en el mensaje algo como "commiteá y pusheá" o "no subas nada", eso **gana** sobre `config.json` para esa corrida.

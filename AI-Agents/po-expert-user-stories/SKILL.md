@@ -86,6 +86,8 @@ Si no hay raíz escribible, avisa en el chat, entrega el markdown **completo** e
 
 Indica **las rutas** del `.md` y del `.csv`, el conteo de historias y cualquier advertencia o pregunta abierta relevante. No repitas el documento entero salvo que el usuario lo pida.
 
+Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
+
 ## Flujo de trabajo
 
 1. **Sintetizar por épica**: objetivo de negocio, actores, límites, métricas de éxito, riesgos.

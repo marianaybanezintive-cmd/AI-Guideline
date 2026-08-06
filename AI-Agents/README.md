@@ -17,6 +17,10 @@ Cada subcarpeta es un **agente** usable desde Cursor (skill) o desde la línea d
 - `scripts/` — pipeline ejecutable, cuando aplica
 - `references/` o archivos `*.md` hermanos — criterios, esquemas y documentación de apoyo
 
+### Git sync (repo)
+
+Al crear un agente nuevo o generar archivos en `AI-Outputs/`, respetá [`../config.json`](../config.json) → `git_sync` (`manual` | `automatic`). Ver [`../docs/git-sync.md`](../docs/git-sync.md).
+
 ## Instalación en Cursor (opcional)
 
 Para invocar el agente por nombre en cualquier proyecto, copiá o enlazá el skill en:

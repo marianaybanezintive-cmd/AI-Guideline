@@ -112,6 +112,8 @@ python AI-Agents/jira-load-user-stories/scripts/update_descriptions.py AI-Output
 
 Tabla: temp_id → Issue Key → tipo → épica → Fase1 → Fase2. Enlaces a issues e informe. No pegar todas las descriptions.
 
+Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
+
 ## Reglas de códigos temporales vs Issue Key
 
 | Campo Jira | Códigos temporales (`HU-…`, `LO-xx`, `RN-xx`, …) | Issue Keys (`MAGIA-123`, …) |
@@ -135,6 +137,7 @@ Ejemplos:
 - [ ] Descriptions empiezan en COMO; sin Metadatos; sin título “Descripción”
 - [ ] Summary sin temp codes ni Issue Keys; Description con temp → Issue Key sustituidos
 - [ ] Informe en `AI-Outputs/jira-load-user-stories/`
+- [ ] Git sync según `config.json` → `git_sync` (manual: preguntar; automatic: commit + push)
 
 ## Recursos
 

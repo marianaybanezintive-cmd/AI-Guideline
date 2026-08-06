@@ -1,0 +1,12 @@
+{
+  "git_sync": {
+    "mode": "manual",
+    "apply_to": {
+      "new_agents": true,
+      "agent_outputs": true
+    },
+    "remote": "origin",
+    "commit_message_style": "conventional",
+    "notes": "mode: manual | automatic. manual = el agente deja los archivos listos y pide confirmación antes de commit/push. automatic = commit y push al terminar sin pedir confirmación."
+  }
+}
