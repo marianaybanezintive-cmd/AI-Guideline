@@ -24,8 +24,8 @@ AI-Outputs/jira-load-user-stories/
 - Asocia cada issue a la épica indicada.
 - Arma Description: COMO/QUIERO/PARA → escenarios → BDD → criterios → fuera de alcance → notas.
 - **Excluye** “Metadatos y alcance de la historia”.
-- Quita códigos temporales del **summary**.
-- Sustituye `HU-…` / `LO-xx` / `RN-xx` por Issue Keys en la Description.
+- En el **título (summary)**: elimina códigos temporales e Issue Keys (solo queda el nombre funcional).
+- En la **Description**: sustituye `HU-…` / `LO-xx` / `RN-xx` por el Issue Key Jira correspondiente.
 - Actualiza Descriptions con el script REST (el MCP no tiene update de issue).
 - Escribe informe + payload en `AI-Outputs/jira-load-user-stories/`.
 

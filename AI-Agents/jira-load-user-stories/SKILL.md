@@ -4,7 +4,8 @@ description: >-
   Scrum Master / Product Owner senior: carga en Jira las historias o tareas de un
   archivo Markdown generado por po-expert-user-stories. Crea issues bajo la épica,
   actualiza Description (COMO/QUIERO/PARA, escenarios BDD, criterios, fuera de alcance,
-  notas) sin metadatos, y sustituye códigos temporales (HU/LO/RN) por Issue Keys.
+  notas) sin metadatos; título sin códigos ni Issue Keys; en Description sustituye
+  códigos temporales (HU/LO/RN) por Issue Keys.
   Usar después de validar el .md de po-expert-user-stories, al publicar backlog en Jira
   o al pedir cargar historias automáticamente vía MCP user-jira.
 disable-model-invocation: true
@@ -56,7 +57,7 @@ Para cada bloque de historia/tarea extraer:
 
 - **temp_id**: `HU-GF.01`, `LO-03`, etc. (del heading o metadatos)
 - **issue_type**: del MD si existe (`Story` / `Historia` / `Task` / `Tarea`); default `Story` (o el de `config.json`)
-- **summary**: título corto **sin** códigos temporales (texto tras `—` en el heading)
+- **summary**: solo el título funcional (texto tras `—` en el heading). **Sin** códigos temporales (`HU-…`, `LO-xx`, `RN-xx`, `TA-…`) y **sin** Issue Keys de Jira
 - **epic_ref**: épica del bloque o del documento
 - **body**: desde la primera línea `COMO` (o equivalente) hasta el final de la HU, **excluyendo** `Metadatos y alcance de la historia` / Identificación
 
@@ -94,8 +95,8 @@ MCP user-jira → create_jira_issue
 
 Solo cuando la Fase 1 del lote terminó:
 
-1. Para cada body: reemplazar referencias `HU-…`, `LO-xx`, `RN-xx` (y aliases del mapa) por Issue Keys.
-2. Summary ya no debe contener temp codes.
+1. Para cada body (Description): **sustituir** cada referencia `HU-…` / `LO-xx` / `RN-xx` / `TA-…` (y aliases del mapa) por el **Issue Key** Jira correspondiente. Esas claves **sí** deben quedar en la Description.
+2. El **summary** queda limpio: sin códigos temporales y sin Issue Keys (no “reemplazar” en el título: **eliminar** esos tokens del summary).
 3. Guardar `payload.json` en `AI-Outputs/jira-load-user-stories/`.
 4. Ejecutar:
 
@@ -111,11 +112,20 @@ python AI-Agents/jira-load-user-stories/scripts/update_descriptions.py AI-Output
 
 Tabla: temp_id → Issue Key → tipo → épica → Fase1 → Fase2. Enlaces a issues e informe. No pegar todas las descriptions.
 
-## Reglas de códigos temporales
+## Reglas de códigos temporales vs Issue Key
 
-- En **summary** y **description** de Jira: **cero** códigos temporales visibles como ID de issue (`HU-GF.01`, `LO-03`, `RN-01`, etc.).
+| Campo Jira | Códigos temporales (`HU-…`, `LO-xx`, `RN-xx`, …) | Issue Keys (`MAGIA-123`, …) |
+|------------|--------------------------------------------------|-----------------------------|
+| **Summary (título)** | **Eliminar** por completo del título | **No incluir** en el título |
+| **Description** | **Sustituir** por el Issue Key del mapa | **Sí** deben aparecer donde había una referencia a otra historia/tarea |
+
+Ejemplos:
+
+- Heading MD `### HU-GF.01 — Carga manual de facturas` → summary Jira: `Carga manual de facturas` (ni `HU-GF.01` ni `MAGIA-101`).
+- En Description: `… depende de LO-03 …` → `… depende de MAGIA-105 …` (después de la Fase 1).
+
 - En el `.md` fuente **no** modificar (salvo que el usuario pida actualizar el mapeo).
-- Si un código referenciado no tiene Issue Key: avisar; no inventar; dejar pendiente en el informe.
+- Si un código referenciado en Description no tiene Issue Key: avisar; no inventar; dejar pendiente en el informe.
 
 ## Checklist antes de cerrar
 
@@ -123,7 +133,7 @@ Tabla: temp_id → Issue Key → tipo → épica → Fase1 → Fase2. Enlaces a 
 - [ ] projectKey + épica Jira resueltos
 - [ ] Todas las issues creadas (o errores listados) antes de updates
 - [ ] Descriptions empiezan en COMO; sin Metadatos; sin título “Descripción”
-- [ ] Reemplazos temp → Issue Key aplicados
+- [ ] Summary sin temp codes ni Issue Keys; Description con temp → Issue Key sustituidos
 - [ ] Informe en `AI-Outputs/jira-load-user-stories/`
 
 ## Recursos

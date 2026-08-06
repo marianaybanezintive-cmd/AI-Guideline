@@ -17,10 +17,13 @@
 | `Tipo: Tarea` / `Issue Type: Task` / heading `TA-` | `Task` (o `Tarea` si el proyecto usa ese nombre — probar y ajustar) |
 | Default / `Story` / `Historia` / `HU-` | `Story` (o `Historia` según `config.json`) |
 
-### Summary limpio
+### Summary limpio (sin IDs)
 
-Del heading `### HU-GF.01 — Carga manual de facturas` → summary = `Carga manual de facturas`.  
-Quitar prefijos `HU-…`, `LO-…`, `RN-…`, `TA-…` del título.
+Del heading `### HU-GF.01 — Carga manual de facturas` → summary = `Carga manual de facturas`.
+
+- **Eliminar** del título cualquier `HU-…`, `LO-…`, `RN-…`, `TA-…`.
+- **No** poner el Issue Key de Jira en el título (tampoco como reemplazo).
+- El título es solo el nombre funcional de la historia/tarea.
 
 ### Description — incluir / excluir
 
@@ -39,7 +42,8 @@ Patrones típicos (token completo, no substring):
 
 Aliases: si metadatos dicen ID `HU-LO.03` y el Excel usaba `LO-03`, mapear ambos al mismo Issue Key.
 
-Al reemplazar, preferir el Issue Key solo (ej. `MAGIA-456`). Opcional: `MAGIA-456` sin markdown link salvo que el usuario pida links.
+**Solo en Description:** al reemplazar, usar el Issue Key (ej. `MAGIA-456`). No eliminar la referencia: **sustituir** el código temporal por la clave Jira.  
+No aplicar esta sustitución al summary: ahí los IDs se quitan, no se cambian por Issue Key.
 
 ## Vínculo a la épica (`customFields`)
 
