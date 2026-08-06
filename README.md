@@ -12,7 +12,7 @@ Repositorio de **agentes de IA** y **artefactos generados** para el equipo MAGIA
 | Agente | Descripción | Output |
 |--------|-------------|--------|
 | [sprint-health-check](AI-Agents/sprint-health-check/) | Validación de salud del sprint en curso (Jira MAGIA) | [`AI-Outputs/sprint-health-check/`](AI-Outputs/sprint-health-check/) |
-| [po-expert-user-stories](AI-Agents/po-expert-user-stories/) | Product Owner: documentos de negocio y épicas → historias detalladas (MD + CSV) | [`AI-Outputs/po-expert-user-stories/`](AI-Outputs/po-expert-user-stories/) (o `docs/po-expert-output/` del proyecto) |
+| [po-expert-user-stories](AI-Agents/po-expert-user-stories/) | Product Owner: documentos de negocio y épicas → historias detalladas (MD + CSV) | [`AI-Outputs/po-expert-user-stories/`](AI-Outputs/po-expert-user-stories/) |
 
 ## Primer uso — credenciales de Jira (una sola vez)
 

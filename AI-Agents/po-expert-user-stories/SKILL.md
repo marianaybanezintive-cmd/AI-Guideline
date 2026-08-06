@@ -55,8 +55,12 @@ Si falta información crítica, **declara supuestos explícitos** en **Notas / p
 ### Ruta y nombre
 
 1. Si el usuario indica ruta o nombre de archivo, **respétalo** (CSV con el mismo stem).
-2. Si no: `docs/po-expert-output/po-historias-usuario-{YYYY-MM-DD}-{slug}.md` y `.csv`.
-3. Crea la carpeta si no existe.
+2. Si no, escribe bajo la raíz del repo **AI-Guideline** (o del workspace que contenga `AI-Outputs/`):
+   - `AI-Outputs/po-expert-user-stories/po-historias-usuario-{YYYY-MM-DD}-{slug}.md`
+   - `AI-Outputs/po-expert-user-stories/po-historias-usuario-{YYYY-MM-DD}-{slug}.csv`
+   - `{slug}`: kebab-case del producto, proyecto o primera épica (máx. ~40 caracteres). Si no hay nombre claro, usa `backlog`.
+3. Crea la carpeta `AI-Outputs/po-expert-user-stories/` si no existe.
+4. **No** guardar la definición del agente en `AI-Outputs/` — esa carpeta es solo para resultados de ejecución. El skill vive en `AI-Agents/po-expert-user-stories/`.
 
 ### Cabecera del archivo `.md`
 

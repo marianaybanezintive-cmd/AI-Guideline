@@ -1,4 +1,12 @@
-﻿# Outputs de po-expert-user-stories
+﻿# Outputs — po-expert-user-stories
 
-Los archivos .md y .csv generados por el agente pueden guardarse aquí o en docs/po-expert-output/ del proyecto de trabajo.
+Aquí se guardan los **resultados** de cada ejecución del agente (archivos `.md` y `.csv`).
 
+La definición del agente está en [`AI-Agents/po-expert-user-stories/`](../../AI-Agents/po-expert-user-stories/).
+
+## Nombre de archivo
+
+```
+po-historias-usuario-{YYYY-MM-DD}-{slug}.md
+po-historias-usuario-{YYYY-MM-DD}-{slug}.csv
+```
