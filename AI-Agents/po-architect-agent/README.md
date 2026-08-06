@@ -1,4 +1,4 @@
-# Agente PO + Arquitecto SR (Alex)
+# Agente PO + Arquitecto SR
 
 Agente dual **Product Owner senior** + **Arquitecto de Software SR** (APIs REST). Lee historias de usuario (Jira o texto) y genera un paquete de arquitectura completo en Mermaid y PNG.
 
