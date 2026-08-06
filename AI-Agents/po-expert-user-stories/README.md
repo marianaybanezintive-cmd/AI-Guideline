@@ -3,6 +3,7 @@
 ```
 AI-Agents/po-expert-user-stories/
 ├── SKILL.md              ← Instrucciones del agente (punto de entrada en Cursor)
+├── excel-input.md        ← Reglas cuando el input es Excel (columnas canónicas)
 ├── csv-schema.md         ← Plantilla y reglas del CSV (4 columnas, `;`, Description)
 └── reference.md          ← Guía corta INVEST, criterios y story map
 
@@ -13,26 +14,27 @@ AI-Outputs/po-expert-user-stories/
 
 ## Qué hace el skill (resumen)
 
-- Lee documentos de negocio, story maps, diagramas y descripciones de épicas.
+- Lee documentos de negocio, story maps, diagramas, épicas o **Excel**.
 - Actúa como Product Owner senior (valor, independencia, trazabilidad).
-- Parte cada épica en historias de tamaño de sprint.
-- Asigna IDs `HU-{CÓDIGO}.{NN}` (ej. `HU-GF.01`) coherentes entre MD y CSV.
-- Redacta cada HU con plantilla fija: COMO / QUIERO / PARA, NECESIDAD, CONTEXTO.
-- Arma tabla ESCENARIOS (solo títulos) + Escenarios BDD (Gherkin) por ID.
-- Escribe criterios de aceptación como “Que …” (sin etiquetas Feliz/Alternativo/Error).
-- Agrega Fuera de alcance y Notas / preguntas abiertas **después** del Gherkin.
-- Genera un `.md` completo con todas las historias (entregable canónico).
-- Genera un `.csv` (`;`, una fila por HU, Description multilínea desde COMO).
-- Guarda ambos en `AI-Outputs/po-expert-user-stories/`.
-- En el chat solo confirma rutas y conteo (no vuelve a pegar todo el documento).
+- Parte cada épica en historias de tamaño de sprint (con Excel: **BE / FE / BFF**).
+- Asigna IDs `HU-{CÓDIGO}.{NN}` (crea aunque `issue_key` Excel venga vacío).
+- **Desestima filas/celdas tachadas** en Excel.
+- Redacta COMO / QUIERO / PARA, NECESIDAD, CONTEXTO.
+- Escenarios del Excel → tabla + Gherkin completo (validaciones/errores si aplica).
+- Si `escenarios` vacío → deriva de `summary` + `objetivo`.
+- Criterios “Que …”; Fuera de alcance y Notas **después** del Gherkin.
+- Sección aparte: **Recomendaciones de escenarios faltantes**.
+- Genera `.md` + `.csv` en `AI-Outputs/po-expert-user-stories/`.
+- En el chat solo confirma rutas y conteo.
 
 ## Qué hace cada archivo
 
 | Archivo | Rol |
 |---------|-----|
-| **SKILL.md** | Orquestador del agente: rol PO, entradas, flujo, plantilla de HU, checklist y rutas de salida. Cursor lo carga al invocar el skill. |
-| **csv-schema.md** | Contrato del CSV: cabeceras `Issue Type;Issue Key;Summary;Description`, orden del cuerpo en Description, reglas RFC 4180 / Alt+Enter, ejemplos de importación en Sheets/Excel. |
-| **reference.md** | Apoyo opcional: INVEST, cómo partir épicas, criterios sólidos, tips de story map y diagramas. Se lee cuando el backlog es grande o controvertido. |
+| **SKILL.md** | Orquestador del agente: rol PO, entradas, flujo, plantilla de HU, checklist y rutas de salida. |
+| **excel-input.md** | Reglas Excel: tachadas, BE/FE/BFF, issue_key vacío, escenarios vacíos, Gherkin desde títulos, recomendaciones aparte. |
+| **csv-schema.md** | Contrato del CSV (4 columnas, `;`, Description multilínea). |
+| **reference.md** | INVEST, partir épicas, criterios, story map (excepción Excel para capas). |
 
 ## Outputs (fuera del skill)
 

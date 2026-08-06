@@ -1,12 +1,12 @@
 ---
 name: po-expert-user-stories
 description: >-
-  Descompone documentos de negocio, story maps, diagramas y descripciones de épicas
-  en historias de usuario (COMO/QUIERO/PARA, NECESIDAD, CONTEXTO, ESCENARIOS, Escenarios
-  BDD Gherkin, luego Criterios de aceptación, Fuera de alcance y Notas/preguntas abiertas).
-  El entregable es un archivo Markdown con el detalle completo de todas las historias, más
-  un CSV de 4 columnas para importar en hojas de cálculo. Usar al redactar backlog,
-  refinamiento PO, descomposición funcional o entregables .md/.csv descargables.
+  Descompone documentos de negocio, story maps, diagramas, épicas o Excel (issue_key,
+  issue_type, summary, objetivo, escenarios, dudas) en historias de usuario detalladas
+  (COMO/QUIERO/PARA, escenarios BDD Gherkin, criterios, fuera de alcance, notas). Con Excel:
+  ignora tachadas, parte BE/FE/BFF, crea aunque falte issue_key, deriva escenarios si la
+  columna está vacía y recomienda faltantes aparte. Entrega MD + CSV. Usar en refinamiento
+  PO, backlog desde planilla o descomposición funcional.
 disable-model-invocation: true
 ---
 
@@ -25,8 +25,17 @@ Antes de escribir, **inventaria y cruza** todo lo que el usuario adjunte o refer
 - Diagramas (flujo, secuencia, estado, dominio, C4, BPMN): extrae actores, estados, decisiones y datos.
 - Descripción de épicas (objetivo, alcance, valor, dependencias, riesgos).
 - Planillas o listados con títulos de escenarios ya definidos por el equipo.
+- **Excel/Sheets** con columnas `issue_key`, `issue_type`, `summary`, `objetivo`, `escenarios`, `dudas` (u homólogas): aplicar reglas de [excel-input.md](excel-input.md).
 
 Si falta información crítica, **declara supuestos explícitos** en **Notas / preguntas abiertas** (no bloquees el flujo salvo que sea imposible redactar sin un dato).
+
+### Detección de origen
+
+| Origen | Comportamiento |
+|--------|----------------|
+| Excel con columnas canónicas (o alias) | Aplicar **todas** las reglas de [excel-input.md](excel-input.md) |
+| Excel con otro formato | Mapear por semántica; documentar columnas detectadas; no forzar reglas que no apliquen |
+| Mural, Figma, POC, diagrama, texto libre | Flujo general de esta skill; **no** exigir columnas Excel ni separación BE/FE/BFF salvo que el contenido lo deje explícito |
 
 ## Principios de salida
 
@@ -49,8 +58,9 @@ Si falta información crítica, **declara supuestos explícitos** en **Notas / p
 - **`{CÓDIGO}`**: 2–4 letras mayúsculas derivadas del nombre de la épica. Único en el lote; si colisiona, `GF2`, etc.
 - **`{NN}`**: orden dentro de la épica, **dos dígitos** (`01` … `99`).
 - En **Metadatos y alcance** del `.md`: épica como **`{CÓDIGO} — {Nombre legible}`**.
-- **Issue Type** en CSV: siempre `Story` para cada HU.
-- Las referencias cruzadas entre historias o reglas (`HU-…`, `LO-xx`, `RN-xx`) se escriben con el código del documento y **se mantienen así** en `.md` y `.csv`.
+- **Issue Type** en CSV / metadatos: usar `issue_type` del Excel si existe (`Story`/`Task` o equivalentes); si no, default `Story`.
+- Si el Excel trae `issue_key` vacío: **igual crear** la HU con un `HU-{CÓDIGO}.{NN}` nuevo (ver excel-input.md).
+- Las referencias cruzadas (`HU-…`, `LO-xx`, `RN-xx`) se escriben con el código del documento y **se mantienen así** en `.md` y `.csv`.
 
 ### Ruta y nombre
 
@@ -90,12 +100,15 @@ Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode
 
 ## Flujo de trabajo
 
-1. **Sintetizar por épica**: objetivo de negocio, actores, límites, métricas de éxito, riesgos.
-2. **Identificar capacidades** y partir en historias que entren en un sprint típico.
-3. **Ordenar** por valor/riesgo o dependencias.
-4. **Redactar cada historia** con la plantilla obligatoria (orden de secciones estricto).
-5. **Revisión PO + checklist** de plantilla.
-6. **Persistir** `.md` y `.csv`, y confirmar rutas en el chat.
+1. **Detectar origen** del input (Excel canónico vs otro). Si Excel → leer [excel-input.md](excel-input.md).
+2. **Sintetizar por épica**: objetivo de negocio, actores, límites, métricas de éxito, riesgos.
+3. **Filtrar**: desestimar filas/celdas **tachadas** (Excel).
+4. **Identificar capacidades** y partir en historias (en Excel: separar **BE / FE / BFF** según corresponda).
+5. **Ordenar** por valor/riesgo, dependencias o capa.
+6. **Redactar cada historia** con la plantilla obligatoria. Escenarios del Excel → Gherkin completo; si `escenarios` vacío → derivar de `summary` + `objetivo`.
+7. **Revisión PO + checklist** de plantilla.
+8. **Recomendaciones aparte**: sección final del `.md` con escenarios que a tu criterio faltan (no mezclarlos como si vinieran del Excel).
+9. **Persistir** `.md` y `.csv`, y confirmar rutas en el chat.
 
 ## Plantilla obligatoria (por historia)
 
@@ -139,7 +152,9 @@ El campo o columna ya se llama Descripción; el contenido debe iniciar directo e
 ### HU-{CÓDIGO}.{NN} — {Título corto verificable}
 
 #### Metadatos y alcance de la historia
-- **ID Historia:** `HU-{CÓDIGO}.{NN}` (debe coincidir con **Issue Key** del CSV)
+- **ID Historia:** `HU-{CÓDIGO}.{NN}` (debe coincidir con **Issue Key** del CSV; si Excel venía vacío, ID generado)
+- **Tipo:** {Story | Task | Historia | Tarea}
+- **Capa:** {FE | BFF | BE | N/A} — solo si aplica
 - **Épica:** {CÓDIGO} — {nombre legible de la épica}
 - **Prioridad sugerida:** {Alta | Media | Baja} — {justificación}
 - **Dependencias:** {ninguna | lista breve}
@@ -226,7 +241,8 @@ DOR {link al documento o «pendiente»}
 - La tabla ESCENARIOS es un **índice** de títulos.
 - Debajo, **un bloque por fila**: `**ID {n}-Escenario {título}**` con `Dado` / `cuando` / `entonces` y ramas `SI` si aplica.
 - Al menos 1 feliz y 1 de error cuando el dominio lo permita.
-- Si el input solo trae **títulos** de escenarios: usarlos en la tabla y **redactar** debajo la lógica completa de cada uno.
+- Si el input solo trae **títulos** de escenarios (p. ej. columna Excel): usarlos en la tabla y **redactar** debajo la lógica Gherkin completa; incluir validaciones, errores o aclaraciones **si el escenario lo requiere**.
+- Escenarios **sugeridos** que no están en el Excel van a la sección **Recomendaciones de escenarios faltantes**, no se inventan dentro de BDD como si fueran del input.
 
 ### Reglas de Criterios / Fuera de alcance / Notas
 
@@ -243,20 +259,23 @@ DOR {link al documento o «pendiente»}
 ### Checklist de calidad antes de guardar
 
 - [ ] Orden: … → Escenarios BDD (Gherkin) completo → Criterios → Fuera de alcance → Notas
-- [ ] Tabla `| ID | ESCENARIO |` + bloque por ID con lógica
+- [ ] Tabla `| ID | ESCENARIO |` + bloque por ID con lógica Gherkin expandida
 - [ ] Criterios solo “Que …” **sin** etiquetas `[Feliz]` / `[Alternativo]` / `[Error]` / `[Validación]` ni “Criterio N: […]”
 - [ ] Metadatos solo en `.md` (sección Metadatos y alcance); no en CSV Description
 - [ ] Description CSV / cuerpo `.md` = desde **COMO** hasta Notas/DOD (sin metadatos y **sin** línea inicial “Descripción”)
 - [ ] El `.md` incluye todas las historias completas, no un resumen
+- [ ] Si Excel: tachadas omitidas; `issue_key` vacío igual generado; capas BE/FE/BFF; sección **Recomendaciones de escenarios faltantes** al final
 
 ## Formato del entregable global (`.md`)
 
 1. Cabecera del documento (tabla de metadatos).
 2. Resumen ejecutivo opcional: tabla épica → número de historias → riesgo principal.
-3. Por cada épica: `# Épica {X}: {nombre}` + historias `### HU-{CÓDIGO}.{NN} — …` completas.
+3. Por cada épica: `# Épica {X}: {nombre}`; si hay capas, subtítulos `# FE` / `# BFF` / `# BE` + historias `### HU-{CÓDIGO}.{NN} — …` completas.
 4. Glosario y definiciones si el dominio lo requiere.
+5. **`## Recomendaciones de escenarios faltantes`** (obligatoria si el origen es Excel; en otros orígenes, incluir si el PO detecta huecos relevantes).
 
 ## Recursos adicionales
 
+- Excel (columnas y reglas): [excel-input.md](excel-input.md)
 - CSV: [csv-schema.md](csv-schema.md)
 - INVEST / story map / criterios: [reference.md](reference.md)

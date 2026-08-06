@@ -11,7 +11,8 @@
 
 ## Partir épicas sin perder valor
 
-- Separar por **resultado de usuario** (no por capa técnica).
+- Por defecto: separar por **resultado de usuario** (no por capa técnica).
+- **Excepción Excel** (columnas canónicas): sí separar / etiquetar **BE / FE / BFF** según [excel-input.md](excel-input.md).
 - Extraer **spikes** cuando falte exploración (POC, integración desconocida).
 - Agrupar **reglas transversales** (RGPD, auditoría) en historias dedicadas si afectan a múltiples flujos.
 
