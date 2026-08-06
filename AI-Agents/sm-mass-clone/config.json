@@ -1,0 +1,22 @@
+{
+  "jira_base_url": "https://bancoatlaspy.atlassian.net",
+  "project_key": "MAGIA",
+  "board_id": 1607,
+  "project_url": "https://bancoatlaspy.atlassian.net/jira/software/c/projects/MAGIA/boards/1607",
+  "output_dir": "AI-Outputs/sm-mass-clone",
+  "link_type_name": "Relacionar",
+  "issue_type_aliases": {
+    "historia": ["Historia", "Historia de Usuario", "Story"],
+    "tarea": ["Tarea", "Task"],
+    "spike": ["Spike"],
+    "bug": ["Error", "Bug", "Defecto"],
+    "subtarea": ["Subtarea", "Sub-task", "Subtask"]
+  },
+  "status_aliases": {
+    "tarea por hacer": ["Tareas por hacer", "Tarea por hacer", "To Do", "Por hacer"],
+    "backlog": ["Backlog"],
+    "en curso": ["En Curso", "In Progress"],
+    "pruebas qa": ["Pruebas QA", "QA", "Testing"],
+    "finalizado": ["Finalizado", "Done", "Listo"]
+  }
+}

@@ -7,6 +7,7 @@ Cada subcarpeta es un **agente** usable desde Cursor (skill) o desde la línea d
 | Agente | Descripción |
 |--------|-------------|
 | [sprint-health-check](sprint-health-check/) | Validación de salud del sprint en curso (Jira) |
+| [sm-mass-clone](sm-mass-clone/) | Scrum Master: clonado masivo de issues (épica / sprint / backlog) + reporte MD |
 | [po-expert-user-stories](po-expert-user-stories/) | Product Owner: épicas y documentos de negocio → historias detalladas (MD + CSV) |
 | [po-architect-agent](po-architect-agent/) | Alex — PO + Arquitecto SR: menú y persona dual |
 | [jira-stories-to-architecture](jira-stories-to-architecture/) | Workflow: historias Jira → arquitectura FE/BFF/BE (Mermaid + PNG) |
@@ -30,6 +31,7 @@ Ejemplos:
 
 ```
 ~/.agents/skills/sprint-health-check/
+~/.agents/skills/sm-mass-clone/
 ~/.agents/skills/po-expert-user-stories/
 ~/.agents/skills/po-architect-agent/
 ~/.agents/skills/jira-stories-to-architecture/
