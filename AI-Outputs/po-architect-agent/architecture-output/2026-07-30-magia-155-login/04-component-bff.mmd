@@ -1,0 +1,23 @@
+flowchart TB
+  subgraph BFF["BFF Identity / Login"]
+    CAuth["AuthController"]
+    CMfa["MfaController"]
+    CPwd["PasswordController"]
+    CMail["WelcomeMailController"]
+    SOrch["AuthOrchestrator"]
+    SCookie["SessionCookieService"]
+    MDto["UiDtoMapper"]
+    ClKc["KeycloakClient"]
+    ClBe["IdentityBeClient"]
+  end
+
+  CAuth --> SOrch
+  CMfa --> SOrch
+  CPwd --> SOrch
+  CMail --> SOrch
+  SOrch --> SCookie
+  SOrch --> MDto
+  SOrch --> ClKc
+  SOrch --> ClBe
+  ClKc --> KC[(Keycloak)]
+  ClBe --> BE[(BE Identity)]

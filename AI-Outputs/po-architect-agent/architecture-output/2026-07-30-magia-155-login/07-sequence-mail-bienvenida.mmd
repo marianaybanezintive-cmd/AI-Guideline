@@ -1,0 +1,22 @@
+sequenceDiagram
+  autonumber
+  actor Admin as Admin ABM
+  participant FE as Frontend ABM
+  participant BFF as BFF Identity
+  participant BE as BE Identity
+  participant DB as BD Atlas Trade
+  participant KC as Keycloak
+  participant CORE as Atlas Core Mail
+  actor U as Usuario EGP/Proveedor
+
+  Admin->>FE: Autoriza alta usuario
+  FE->>BFF: POST /v1/auth/welcome-mail/trigger
+  BFF->>BE: POST /internal/v1/notifications/welcome
+  BE->>KC: Crea/actualiza user + password temporal
+  BE->>DB: INSERT notificacion PENDIENTE
+  BE->>CORE: Enviar template bienvenida
+  CORE-->>BE: 202 Accepted
+  BE->>DB: UPDATE estado ENVIADO
+  BE-->>BFF: 202
+  BFF-->>FE: OK
+  CORE-->>U: Mail con link + temporal

@@ -1,0 +1,20 @@
+sequenceDiagram
+  autonumber
+  actor U as Usuario
+  participant FE as Frontend
+  participant BFF as BFF Identity
+  participant KC as Keycloak
+  participant BE as BE Identity
+
+  loop Intentos fallidos
+    U->>FE: Password incorrecta
+    FE->>BFF: POST /v1/auth/login
+    BFF->>KC: Validate
+    KC-->>BFF: invalid_grant / lock pending
+    BFF->>BE: POST validación pass + flag
+    BE-->>BFF: intentos / bloqueado
+    BFF-->>FE: error + remainingAttempts
+  end
+  KC->>KC: Bloqueo por política
+  BFF->>BE: flag bloqueado=true
+  BFF-->>FE: MSG bloqueo → Mesa de ayuda

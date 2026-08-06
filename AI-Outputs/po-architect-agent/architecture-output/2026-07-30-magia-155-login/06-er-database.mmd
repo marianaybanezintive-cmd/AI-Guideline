@@ -1,0 +1,65 @@
+erDiagram
+  USUARIO ||--o{ SESION : tiene
+  USUARIO ||--o{ NOTIFICACION : recibe
+  USUARIO ||--o{ OTP_CHALLENGE : genera
+  USUARIO ||--o{ DISPOSITIVO_CONFIABLE : registra
+  USUARIO }o--o{ ENTE : pertenece
+  USUARIO ||--o{ INTENTO_LOGIN : acumula
+  TEMPLATE_MAIL ||--o{ NOTIFICACION : usa
+
+  USUARIO {
+    uuid id PK
+    string email UK
+    string dominio
+    string estado
+    boolean password_temporal
+    boolean bloqueado
+    datetime created_at
+  }
+  ENTE {
+    uuid id PK
+    string codigo UK
+    string razon_social
+  }
+  SESION {
+    uuid id PK
+    uuid usuario_id FK
+    string cookie_id
+    datetime last_activity_at
+    datetime expires_at
+  }
+  NOTIFICACION {
+    uuid id PK
+    uuid usuario_id FK
+    string template_id
+    string destinatario
+    string estado
+    int reintentos
+    datetime created_at
+  }
+  TEMPLATE_MAIL {
+    string id PK
+    string tipo
+    string origen
+  }
+  OTP_CHALLENGE {
+    uuid id PK
+    uuid usuario_id FK
+    string proposito
+    string codigo_hash
+    datetime expires_at
+    boolean consumido
+  }
+  DISPOSITIVO_CONFIABLE {
+    uuid id PK
+    uuid usuario_id FK
+    string fingerprint
+    datetime trusted_until
+  }
+  INTENTO_LOGIN {
+    uuid id PK
+    uuid usuario_id FK
+    boolean exitoso
+    string motivo
+    datetime created_at
+  }

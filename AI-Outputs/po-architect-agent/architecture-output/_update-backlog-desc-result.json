@@ -1,0 +1,497 @@
+[
+  {
+    "key": "MAGIA-334",
+    "summary": "BFF - Generador de JWT",
+    "action": "skipped",
+    "reason": "skip_no_template"
+  },
+  {
+    "key": "MAGIA-351",
+    "summary": "LO-05 — Mail de bienvenida para EGP / PROVEEDOR",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 15,
+      "notas_header": 19
+    }
+  },
+  {
+    "key": "MAGIA-352",
+    "summary": "LO-07 — Primer login BANCO con credenciales de AD",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 16,
+      "notas_header": 19
+    }
+  },
+  {
+    "key": "MAGIA-353",
+    "summary": "LO-10 — Primer login EGP / PROVEEDOR con contraseña temporal",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 16,
+      "notas_header": 20
+    }
+  },
+  {
+    "key": "MAGIA-354",
+    "summary": "LO-22 — Configuración de 2FA en el primer login (EGP / PROVEEDOR)",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 16,
+      "notas_header": 20
+    }
+  },
+  {
+    "key": "MAGIA-355",
+    "summary": "LO-25 — Acceso recurrente con credenciales definitivas",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 14,
+      "notas_header": 18
+    }
+  },
+  {
+    "key": "MAGIA-356",
+    "summary": "LO-27 — Validación de 2FA en accesos posteriores",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 16,
+      "notas_header": 20
+    }
+  },
+  {
+    "key": "MAGIA-357",
+    "summary": "LO-29 — Cierre de sesión automático por inactividad",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 15,
+      "notas_header": 18
+    }
+  },
+  {
+    "key": "MAGIA-358",
+    "summary": "LO-30 — Cambio / desbloqueo de contraseña · BANCO",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 13,
+      "notas_header": 16
+    }
+  },
+  {
+    "key": "MAGIA-359",
+    "summary": "LO-31 — Cambio / desbloqueo de contraseña · EGP/PROVEEDOR con Home Banking",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 14,
+      "notas_header": 17
+    }
+  },
+  {
+    "key": "MAGIA-360",
+    "summary": "LO-32 — Cambio / desbloqueo de contraseña · gestión manual",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 13,
+      "notas_header": 16
+    }
+  },
+  {
+    "key": "MAGIA-361",
+    "summary": "LO-34 — Bloqueo de contraseña por n intentos (FE)",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8,
+      "fuera_header": 15,
+      "notas_header": 19
+    }
+  },
+  {
+    "key": "MAGIA-362",
+    "summary": "LO-06 — POST · Envío de mail (Notificaciones existente)",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-363",
+    "summary": "LO-11 — POST · Validar mail/contraseña temporal (flag temporal)",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-364",
+    "summary": "LO-13 — PATCH · Actualizar contraseña ingresada por el usuario",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-365",
+    "summary": "LO-24 — POST · Envío OTP + validación de código",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-366",
+    "summary": "LO-24-a — GET · Mail del usuario *(propuesto)*",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-367",
+    "summary": "LO-26 — POST · Validación de credenciales AD / Home / Manual",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-368",
+    "summary": "LO-28 — POST · Validación de 2FA",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-369",
+    "summary": "LO-29-a — Cookie de sesión en el inicio de sesión *(propuesto)*",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-370",
+    "summary": "LO-33 — PATCH/POST · Cambio de contraseña (forgot + update)",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-371",
+    "summary": "LO-35 — POST · Validación de pass + flag de estado",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+bdd_before_ac",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "bdd_header": 5,
+      "bdd_code": 6,
+      "criterios_header": 7,
+      "criterio_item": 8
+    }
+  },
+  {
+    "key": "MAGIA-372",
+    "summary": "T-01 (LO-01) — Implementar servicio OAuth",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+no_bdd",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "criterios_header": 5,
+      "criterio_item": 6
+    }
+  },
+  {
+    "key": "MAGIA-373",
+    "summary": "T-02 (XX) — Configuración de ente Open-API Atlas",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+no_bdd",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "criterios_header": 5,
+      "criterio_item": 6
+    }
+  },
+  {
+    "key": "MAGIA-374",
+    "summary": "T-03 — Atlas Core / Atlas Trade — configuración de servicios de mail",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+no_bdd",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "criterios_header": 5,
+      "criterio_item": 6
+    }
+  },
+  {
+    "key": "MAGIA-375",
+    "summary": "T-04 — SPEC CORE",
+    "action": "updated",
+    "note": "updated+dropped_meta_list+no_bdd",
+    "has_contexto_label": false,
+    "has_metadatos": false,
+    "order_ok": true,
+    "positions": {
+      "descripcion": 0,
+      "connextra": 1,
+      "necesidad": 2,
+      "escenarios_header": 3,
+      "criterios_header": 5,
+      "criterio_item": 6
+    }
+  }
+]

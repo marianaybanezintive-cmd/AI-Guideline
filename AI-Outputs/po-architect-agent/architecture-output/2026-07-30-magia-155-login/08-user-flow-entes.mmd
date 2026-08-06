@@ -1,0 +1,8 @@
+flowchart TD
+  A[👤 Usuario autenticado] --> B{¿Tiene múltiples entes?}
+  B -->|No| C[Entrar al ente único]
+  B -->|Sí| D[🏢 Pantalla selección de ente]
+  D --> E[Selecciona ente]
+  E --> F[BFF fija contexto ente en sesión]
+  F --> G[Home Confirming]
+  C --> G

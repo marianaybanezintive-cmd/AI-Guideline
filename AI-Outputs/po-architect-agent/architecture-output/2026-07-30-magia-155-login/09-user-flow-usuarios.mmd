@@ -1,0 +1,15 @@
+flowchart TD
+  Start([Acceso al Portal]) --> Dom{Dominio}
+  Dom -->|BANCO| B1[Login AD/Keycloak]
+  B1 --> B2{2FA AD}
+  B2 --> B3[Sesión + cookie]
+  Dom -->|EGP / Proveedor| E1{¿Primer login?}
+  E1 -->|Sí| E2[Mail+temporal]
+  E2 --> E3[Set password]
+  E3 --> E4[Setup 2FA OTP]
+  E4 --> E5[Sesión]
+  E1 -->|No| E6[Password definitiva]
+  E6 --> E7[OTP 2FA]
+  E7 --> E5
+  B3 --> Home[Home / selección ente]
+  E5 --> Home

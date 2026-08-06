@@ -1,0 +1,21 @@
+sequenceDiagram
+  autonumber
+  actor U as Usuario EGP/Proveedor
+  participant FE as Frontend
+  participant BFF as BFF Identity
+  participant KC as Keycloak
+  participant BE as BE Identity
+
+  U->>FE: Mail + password temporal
+  FE->>BFF: POST /v1/auth/first-login
+  BFF->>KC: Validar temporal + flag
+  KC-->>BFF: passwordTemporal=true, nextStep
+  BFF-->>FE: Wizard: set password
+  U->>FE: Nueva password (+ política)
+  FE->>BFF: PATCH /v1/auth/password
+  BFF->>KC: Actualizar password, clear temporal
+  BFF-->>FE: nextStep=SETUP_2FA
+  U->>FE: Configura mail OTP
+  FE->>BFF: POST /v1/auth/mfa/setup + verify
+  BFF->>BE: Persistencia challenge / mail OTP
+  BFF-->>FE: nextStep=HOME

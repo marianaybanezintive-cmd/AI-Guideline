@@ -1,0 +1,12 @@
+flowchart TD
+  Ev[Evento: alta usuario / OTP / reset] --> BFF[BFF trigger]
+  BFF --> BE[BE Identity]
+  BE --> Hist[(Histórico Atlas Trade)]
+  BE --> Core[Atlas Core Notificaciones]
+  Core --> Mail[📧 Mail usuario]
+  Core -->|5xx| Retry{Reintentos ≤ 3}
+  Retry -->|Sí| Core
+  Retry -->|No| Err[Estado ERROR]
+  Core -->|202| Ok[Estado ENVIADO]
+  Hist --> Ok
+  Hist --> Err

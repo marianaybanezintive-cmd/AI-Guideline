@@ -1,0 +1,24 @@
+flowchart TB
+  subgraph FE["Frontend — Login"]
+    PLogin["LoginPage"]
+    PFirst["FirstLoginWizard"]
+    P2FA["TwoFactorPage"]
+    PForgot["ForgotPasswordPage"]
+    PIdle["IdleSessionWatcher"]
+    PEntes["EntitySelectPage"]
+    Store["AuthStore / SessionStore"]
+    Api["AuthApiClient → BFF"]
+  end
+
+  PLogin --> Store
+  PFirst --> Store
+  P2FA --> Store
+  PForgot --> Store
+  PIdle --> Store
+  PEntes --> Store
+  Store --> Api
+
+  Api -->|"POST /v1/auth/login"| BFF[(BFF Identity)]
+  Api -->|"POST /v1/auth/first-login"| BFF
+  Api -->|"POST /v1/auth/mfa/*"| BFF
+  Api -->|"PATCH /v1/auth/password"| BFF

@@ -1,0 +1,23 @@
+C4Context
+  title Diagrama de Contexto — Login Portal Confirming (MAGIA-155)
+
+  Person(usuario_banco, "Usuario BANCO", "Interno Atlas; credencial AD")
+  Person(usuario_ext, "Usuario EGP / Proveedor", "Externo; credencial Keycloak")
+  Person(admin_abm, "Admin ABM", "Alta usuarios y reenvío mail")
+
+  System(portal, "Portal Confirming Atlas Trade", "Login, sesión, 2FA y acceso a Confirming")
+
+  System_Ext(keycloak, "Keycloak", "IdP OIDC; federación AD; políticas password")
+  System_Ext(ad, "Active Directory", "Identidad corporativa BANCO")
+  System_Ext(core_mail, "Atlas Core Notificaciones", "Envío mail bienvenida y OTP")
+  System_Ext(homebanking, "Home Banking", "Cambio password EGP/Proveedor cliente")
+  System_Ext(openapi, "Open API Atlas", "Servicios plataforma / JWT ente")
+
+  Rel(usuario_banco, portal, "Inicia sesión")
+  Rel(usuario_ext, portal, "Inicia sesión / primer login")
+  Rel(admin_abm, portal, "Autoriza alta / reenvía bienvenida")
+  Rel(portal, keycloak, "Autentica y gestiona credenciales")
+  Rel(keycloak, ad, "Federación BANCO")
+  Rel(portal, core_mail, "Dispara mails")
+  Rel(usuario_ext, homebanking, "Actualiza password (canal alt.)")
+  Rel(portal, openapi, "Integra servicios Atlas")

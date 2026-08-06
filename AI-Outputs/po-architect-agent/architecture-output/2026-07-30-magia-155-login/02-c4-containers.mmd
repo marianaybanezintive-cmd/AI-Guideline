@@ -1,0 +1,29 @@
+C4Container
+  title Contenedores — Login MAGIA-155
+
+  Person(usuario, "Usuario Portal")
+
+  Container_Boundary(frontend, "Frontend") {
+    Container(fe, "Web App Confirming", "React SPA", "Pantallas login, 2FA, cambio password, selección ente")
+  }
+
+  Container_Boundary(bff_layer, "BFF Layer") {
+    Container(bff, "BFF Identity / Login", "Node/Nest", "Orquesta login UI, cookie sesión, DTO pantallas")
+  }
+
+  Container_Boundary(backend, "Backend Domain") {
+    Container(be, "BE Identity", "Java/Spring o Nest", "Dominio auth, notificaciones trigger, flags estado")
+    ContainerDb(db_trade, "BD Atlas Trade", "PostgreSQL", "Histórico notificaciones, sesión metadata, entes")
+  }
+
+  Container_Ext(keycloak, "Keycloak", "OIDC IdP")
+  Container_Ext(core, "Atlas Core Mail", "Notificaciones")
+  Container_Ext(ad, "Active Directory", "LDAP/OIDC federado")
+
+  Rel(usuario, fe, "HTTPS")
+  Rel(fe, bff, "REST /v1/auth/* + cookie")
+  Rel(bff, be, "REST /internal/v1/**")
+  Rel(bff, keycloak, "Token / password / OTP flows")
+  Rel(be, db_trade, "SQL")
+  Rel(be, core, "Envío mail + templates")
+  Rel(keycloak, ad, "Federación BANCO")

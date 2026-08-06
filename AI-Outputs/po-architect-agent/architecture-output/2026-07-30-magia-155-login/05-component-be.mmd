@@ -1,0 +1,21 @@
+flowchart TB
+  subgraph BE["BE Identity — Dominio"]
+    CNotif["NotificationsController"]
+    CAuth["InternalAuthController"]
+    SNotif["NotificationService"]
+    SAuth["AuthDomainService"]
+    SFlag["UserStatusFlagService"]
+    RNotif["NotificationRepository"]
+    RUser["UserRepository"]
+    Outbox["MailOutbox / Retry"]
+  end
+
+  CNotif --> SNotif
+  CAuth --> SAuth
+  SAuth --> SFlag
+  SNotif --> RNotif
+  SNotif --> Outbox
+  SAuth --> RUser
+  Outbox --> CORE[(Atlas Core Notificaciones)]
+  RNotif --> DB[(BD Atlas Trade)]
+  RUser --> DB

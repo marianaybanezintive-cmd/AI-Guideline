@@ -1,0 +1,22 @@
+sequenceDiagram
+  autonumber
+  actor U as Usuario
+  participant FE as Frontend
+  participant BFF as BFF Identity
+  participant KC as Keycloak
+  participant BE as BE Identity
+  participant CORE as Atlas Core Mail
+
+  U->>FE: Credenciales definitivas
+  FE->>BFF: POST /v1/auth/login
+  BFF->>KC: Validar password
+  KC-->>BFF: OK + requiresMfa
+  BFF->>BE: POST OTP challenge
+  BE->>CORE: Mail OTP
+  BFF-->>FE: nextStep=MFA
+  U->>FE: Código OTP
+  FE->>BFF: POST /v1/auth/mfa/verify
+  BFF->>BE: Validar OTP
+  BE-->>BFF: OK
+  BFF->>BFF: Set cookie sesión
+  BFF-->>FE: Sesión activa

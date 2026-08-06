@@ -1,0 +1,20 @@
+sequenceDiagram
+  autonumber
+  actor U as Usuario BANCO
+  participant FE as Frontend
+  participant BFF as BFF Identity
+  participant KC as Keycloak
+  participant AD as Active Directory
+  participant BE as BE Identity
+
+  U->>FE: Ingresa usuario/password corporativos
+  FE->>BFF: POST /v1/auth/login
+  BFF->>KC: Resource Owner / ROPC o Auth Code
+  KC->>AD: Validar credenciales federadas
+  AD-->>KC: OK (+ 2FA AD si aplica)
+  KC-->>BFF: tokens
+  BFF->>BE: Resolver perfil / roles / entes
+  BE-->>BFF: usuario + entes
+  BFF->>BFF: Emitir cookie sesión
+  BFF-->>FE: DTO sesión + nextStep
+  FE-->>U: Home o selección de ente
