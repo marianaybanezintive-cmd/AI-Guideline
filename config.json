@@ -1,6 +1,6 @@
 {
   "git_sync": {
-    "mode": "manual",
+    "mode": "automatic",
     "apply_to": {
       "new_agents": true,
       "agent_outputs": true
