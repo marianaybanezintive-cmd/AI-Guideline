@@ -13,6 +13,7 @@ Repositorio de **agentes de IA** y **artefactos generados** para el equipo MAGIA
 |--------|-------------|--------|
 | [sprint-health-check](AI-Agents/sprint-health-check/) | Validación de salud del sprint en curso (Jira MAGIA) | [`AI-Outputs/sprint-health-check/`](AI-Outputs/sprint-health-check/) |
 | [po-expert-user-stories](AI-Agents/po-expert-user-stories/) | Product Owner: documentos de negocio y épicas → historias detalladas (MD + CSV) | [`AI-Outputs/po-expert-user-stories/`](AI-Outputs/po-expert-user-stories/) |
+| [jira-load-user-stories](AI-Agents/jira-load-user-stories/) | SM/PO: publica en Jira el MD validado de po-expert (create + update Description) | [`AI-Outputs/jira-load-user-stories/`](AI-Outputs/jira-load-user-stories/) |
 | [po-architect-agent](AI-Agents/po-architect-agent/) + [jira-stories-to-architecture](AI-Agents/jira-stories-to-architecture/) | PO + Arquitecto SR: historias Jira → diagramas C4, BD, FE/BFF/BE, secuencias y user flows (Mermaid + PNG) | [`AI-Outputs/po-architect-agent/`](AI-Outputs/po-architect-agent/) |
 
 ## Primer uso — credenciales de Jira (una sola vez)

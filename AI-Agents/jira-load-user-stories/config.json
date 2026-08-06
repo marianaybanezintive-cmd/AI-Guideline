@@ -1,0 +1,11 @@
+{
+  "jira_base_url": "https://bancoatlaspy.atlassian.net",
+  "project_key": "MAGIA",
+  "default_issue_type_story": "Story",
+  "default_issue_type_task": "Task",
+  "output_dir": "AI-Outputs/jira-load-user-stories",
+  "source_md_glob": "AI-Outputs/po-expert-user-stories/*.md",
+  "create_description_placeholder": "Pendiente de descripción.",
+  "epic_link_custom_field": "",
+  "wait_seconds_before_update": 3
+}
