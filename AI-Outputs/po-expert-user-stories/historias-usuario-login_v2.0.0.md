@@ -10,7 +10,6 @@
 
 ## Tabla de contenidos
 
-0. [Qué cambia respecto de v1.0.0](#0-qué-cambia-respecto-de-v100)
 1. [Criterio de elaboración y alcance](#1-criterio-de-elaboración-y-alcance)
 2. [Matriz de inclusión / desestimación (fila por fila del Excel)](#2-matriz-de-inclusión--desestimación-fila-por-fila-del-excel)
 3. [Contexto de solución, actores y supuestos](#3-contexto-de-solución-actores-y-supuestos)
