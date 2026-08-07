@@ -1,12 +1,11 @@
 ---
 name: po-expert-user-stories
 description: >-
-  Descompone documentos de negocio, story maps, diagramas, épicas o Excel (issue_key,
-  issue_type, summary, objetivo, escenarios, dudas) en historias de usuario detalladas
-  (COMO/QUIERO/PARA, escenarios BDD Gherkin, criterios, fuera de alcance, notas). Con Excel:
-  ignora tachadas, parte BE/FE/BFF, crea aunque falte issue_key, deriva escenarios si la
-  columna está vacía y recomienda faltantes aparte. Entrega MD + CSV. Usar en refinamiento
-  PO, backlog desde planilla o descomposición funcional.
+  Descompone documentos de negocio, story maps, diagramas, épicas o Excel en historias
+  de usuario detalladas con plantilla fija de 13 secciones (contexto, RN, catálogo MSG,
+  tarjetas HU/HT, spikes, trazabilidad, DoR/DoD). Pausa interactiva en supuestos (§3.3)
+  y dudas (§9). Gherkin en español con mensajes UI inline desde el catálogo. Entrega MD + CSV.
+  Usar en refinamiento PO, backlog desde planilla o descomposición funcional.
 disable-model-invocation: true
 ---
 
@@ -27,7 +26,7 @@ Antes de escribir, **inventaria y cruza** todo lo que el usuario adjunte o refer
 - Planillas o listados con títulos de escenarios ya definidos por el equipo.
 - **Excel/Sheets** con columnas `issue_key`, `issue_type`, `summary`, `objetivo`, `escenarios`, `dudas` (u homólogas): aplicar reglas de [excel-input.md](excel-input.md).
 
-Si falta información crítica, **declara supuestos explícitos** en **Notas / preguntas abiertas** (no bloquees el flujo salvo que sea imposible redactar sin un dato).
+Si falta información crítica, **declara supuestos explícitos** en §3.3 (no bloquees el flujo salvo que sea imposible redactar sin un dato).
 
 ### Detección de origen
 
@@ -40,242 +39,184 @@ Si falta información crítica, **declara supuestos explícitos** en **Notas / p
 ## Principios de salida
 
 - **Una historia = un incremento de valor** verificable por el usuario/negocio.
-- **Independencia**: evita historias que solo tienen sentido si otra no está hecha; si hay dependencia, documéntala.
-- **Lenguaje de negocio** en COMO / QUIERO / PARA; Gherkin en pasos observables (UI/API/eventos), sin detalle de implementación salvo que el input lo exija.
-- **Trazabilidad**: cuando el input lo permita, indica de qué sección del documento o qué nodo del mapa/diagrama proviene la historia.
-- **El `.md` es el entregable canónico**: contiene el detalle completo del proceso y de cada historia. El chat solo resume y enlaza rutas.
+- **Independencia**: evita historias que solo tienen sentido si otra no está hecha; si hay dependencia, documéntala en metadatos de la tarjeta.
+- **Lenguaje de negocio** en la historia Connextra; Gherkin en pasos observables (UI/API/eventos).
+- **Trazabilidad**: indica de qué sección del documento o qué nodo del mapa/diagrama proviene cada historia.
+- **El `.md` es el entregable canónico**: contiene el detalle completo. El chat resume y enlaza rutas.
+
+## Estructura obligatoria del `.md` — 13 secciones
+
+**Siempre**, sin excepción, el archivo Markdown debe construir las **13 secciones numeradas 0–13** definidas en [md-template.md](md-template.md).
+
+| § | Sección | Obligatorio |
+|---|---------|-------------|
+| 0 | Qué cambia respecto de versión anterior | Sí |
+| 1 | Criterio de elaboración y alcance | Sí |
+| 2 | Matriz de inclusión / desestimación | Sí |
+| 3 | Contexto, actores y supuestos (3.1, 3.2, **3.3**) | Sí |
+| 4 | Reglas de negocio transversales (RN) | Sí |
+| 5 | Catálogo de mensajes UI | Sí *(o «No aplica» explícito)* |
+| 6 | Historias de usuario funcionales (tarjetas) | Sí |
+| 7 | Historias técnicas — Endpoints BFF/BE | Sí *(o «No aplica»)* |
+| 8 | Tareas técnicas / habilitadores | Sí *(o «No aplica»)* |
+| 9 | Spikes y decisiones pendientes (DUDAS) | Sí |
+| 10 | Recomendaciones PO — historias faltantes | Sí |
+| 11 | Observaciones consistencia del input | Sí |
+| 12 | Matriz trazabilidad HU ↔ endpoint ↔ pantalla | Sí |
+| 13 | Definition of Ready / Definition of Done | Sí |
+
+La plantilla detallada (tablas, tarjetas HU/HT, encabezados) está en [md-template.md](md-template.md). **No omitir secciones** aunque el input no tenga Excel, mensajes UI o endpoints: usar la nota «No aplica» con breve justificación.
+
+## Pausas interactivas (human-in-the-loop)
+
+El flujo **no es lineal de punta a punta**. Hay **dos puntos de parada obligatorios** donde debes **detenerte**, presentar el borrador al usuario y **esperar respuesta** antes de continuar redactando §4–§13 y persistir archivos.
+
+### Pausa 1 — §3.3 Supuestos
+
+1. Redacta §0, §1, §2 y §3 (incluida la tabla **3.3 Supuestos** con IDs `SUP-01`, `SUP-02`, …).
+2. **Detente.** Presenta en el chat **cada supuesto**, uno por uno (o en bloque numerado), con esta instrucción por ítem:
+
+   > **SUP-{NN}:** {texto del supuesto}  
+   > Respondé con tu aclaración/confirmación, o escribí **skip** para mantener el supuesto tal cual.
+
+3. Opciones válidas del usuario:
+   - **Responder** con texto que confirme, corrija o refine el supuesto.
+   - **skip** / **saltar** / **mantener** → conservar el supuesto original.
+   - Respuesta global: «skip todos» → mantener todos sin cambios.
+
+4. Incorpora las respuestas en la columna **Confirmación** de §3.3 y usa esos supuestos confirmados al redactar RN, historias y spikes.
+
+5. **Solo entonces** continúa con §4 en adelante.
+
+### Pausa 2 — §9 Spikes y decisiones pendientes
+
+1. Tras redactar §4–§8, construye la tabla **§9** con IDs `S-01`, `S-02`, … (origen: columna `dudas` del Excel, contradicciones detectadas, gaps técnicos).
+2. **Detente.** Presenta **cada ítem** de §9 con:
+
+   > **S-{NN}:** {pregunta abierta}  
+   > **Impacto:** {…} · **Propuesta PO:** {…}  
+   > Aclarar con tu respuesta o escribí **skip** para dejar la propuesta del PO.
+
+3. Mismas reglas de respuesta/skip que en §3.3.
+4. Incorpora respuestas en la columna **Respuesta** de §9.
+5. **Solo entonces** continúa con §10–§13, genera CSV y persiste archivos.
+
+### Override de pausa
+
+Si el usuario escribe explícitamente **«continuar sin pausa»**, **«no preguntar supuestos»** o equivalente al inicio de la corrida, podés omitir las pausas y marcar Confirmación/Respuesta como «pendiente — usuario pidió continuar sin pausa».
+
+## Catálogo de mensajes UI (§5) y Gherkin
+
+### §5 — Fuente unificada
+
+- Todos los textos visibles al usuario se definen **una sola vez** en §5 con código `MSG-XX`, contexto y mensaje literal.
+- Si el input no define textos, **propón** un catálogo razonable para el dominio y marcá los que requieran validación UX.
+
+### Regla de inline en BDD (obligatoria)
+
+Cuando un escenario Gherkin o un criterio de aceptación referencia un mensaje UI:
+
+- **Prohibido** citar solo el código (`MSG-01`, «veo MSG-04»).
+- **Obligatorio** incluir el **texto literal** del mensaje definido en §5, además del código.
+
+**Formato preferido en Gherkin:**
+
+```gherkin
+Entonces veo el mensaje MSG-01: "Usuario o contraseña incorrectos. Te quedan {n} intentos antes de que bloqueemos tu acceso."
+```
+
+Variantes aceptables:
+
+```gherkin
+Y el sistema muestra MSG-02 ("Tu acceso fue bloqueado por 3 intentos fallidos…")
+```
+
+En **criterios de aceptación** numerados:
+
+```markdown
+3. **[Error]** Credenciales incorrectas: MSG-01 — "Usuario o contraseña incorrectos…"
+```
+
+El catálogo §5 sigue siendo la **fuente de verdad**; el inline en BDD evita cruces manuales para quien lee la historia.
+
+## Formato de tarjetas (§6 y §7)
+
+Cada historia funcional (§6) y técnica (§7) sigue el formato **tarjeta de backlog** de [md-template.md](md-template.md):
+
+- Metadatos en tabla (Tipo, Épica, Actor, Prioridad, Depende de, Habilita, Pantalla POC / Contrato).
+- Historia Connextra en bloque multilínea (`Como / quiero / para`) **sin** negritas COMO/QUIERO/PARA.
+- **Valor de negocio** (HU) u **Objetivo técnico** (HT).
+- **Escenarios fuente** con transcripción literal del input cuando exista.
+- **Criterios de aceptación numerados** con tags `[Feliz]`, `[Alternativo]`, `[Error]`, `[Validación]`.
+- **Escenarios BDD** en Gherkin **español** (`Característica`, `Antecedentes`, `Escenario`, `Esquema del escenario`, `Ejemplos`, `Dado`, `Cuando`, `Entonces`, `Y`).
+- **Fuera de alcance**, **Notas / preguntas abiertas**, **Chequeo INVEST** (§6).
+- **Errores esperados** (tabla HTTP — §7).
+
+Orden dentro de cada tarjeta: Historia → Valor/Objetivo → Escenarios fuente → **AC** → **BDD** → Fuera de alcance → Notas → INVEST/Errores.
 
 ## Entregables en disco (obligatorio): Markdown + CSV
 
-**Siempre** genera **dos archivos** con el **mismo nombre base** (misma carpeta, misma fecha y `slug`, distinta extensión):
+**Siempre** genera **dos archivos** con el **mismo nombre base**:
 
-1. **Markdown** con el contenido **completo**: cabecera del documento, resumen por épica, y **todas** las historias con la plantilla íntegra (metadatos + cuerpo). El `.md` no puede ser un resumen ni omitir escenarios o criterios.
-2. **CSV** según [csv-schema.md](csv-schema.md): **4 columnas** (`;` como separador), **un registro lógico por HU**. Los cuatro campos van **entre `"…"`**. En **Description** usar **LF reales** dentro de las comillas (RFC 4180 §2.6; Alt+Enter en Excel/Sheets). **No** usar la secuencia literal `\n`.
+1. **Markdown** — documento completo con las **13 secciones** y todas las tarjetas.
+2. **CSV** según [csv-schema.md](csv-schema.md): **4 columnas** (`;`), **un registro por historia elaborada** (HU de §6 y HT de §7; opcionalmente TAREA de §8 si el equipo las carga a Jira).
 
-### Identificador de historia (coherente MD ↔ CSV **Issue Key**)
+### Identificadores
 
-- En el `.md` (campo **ID Historia**) y en la columna **Issue Key** del CSV usa **`HU-{CÓDIGO}.{NN}`** (ejemplo: `HU-GF.01`). El **punto** entre código y número es obligatorio.
-- **`{CÓDIGO}`**: 2–4 letras mayúsculas derivadas del nombre de la épica. Único en el lote; si colisiona, `GF2`, etc.
-- **`{NN}`**: orden dentro de la épica, **dos dígitos** (`01` … `99`).
-- En **Metadatos y alcance** del `.md`: épica como **`{CÓDIGO} — {Nombre legible}`**.
-- **Issue Type** en CSV / metadatos: usar `issue_type` del Excel si existe (`Story`/`Task` o equivalentes); si no, default `Story`.
-- Si el Excel trae `issue_key` vacío: **igual crear** la HU con un `HU-{CÓDIGO}.{NN}` nuevo (ver excel-input.md).
-- Las referencias cruzadas (`HU-…`, `LO-xx`, `RN-xx`) se escriben con el código del documento y **se mantienen así** en `.md` y `.csv`.
+- Conservar `issue_key` del Excel (`LO-xx`, etc.) cuando exista — trazabilidad con Jira.
+- Si `issue_key` vacío: generar key propuesto (`{CÓDIGO}-{NN}-a` o `HU-{CÓDIGO}.{NN}` según convención del input).
+- Épica en metadatos: `{CÓDIGO} — {Nombre legible}`.
 
 ### Ruta y nombre
 
-1. Si el usuario indica ruta o nombre de archivo, **respétalo** (CSV con el mismo stem).
-2. Si no, escribe bajo la raíz del repo **AI-Guideline** (o del workspace que contenga `AI-Outputs/`):
+1. Si el usuario indica ruta o nombre, **respétalo** (CSV con el mismo stem).
+2. Si no:
    - `AI-Outputs/po-expert-user-stories/po-historias-usuario-{YYYY-MM-DD}-{slug}.md`
    - `AI-Outputs/po-expert-user-stories/po-historias-usuario-{YYYY-MM-DD}-{slug}.csv`
-   - `{slug}`: kebab-case del producto, proyecto o primera épica (máx. ~40 caracteres). Si no hay nombre claro, usa `backlog`.
-3. Crea la carpeta `AI-Outputs/po-expert-user-stories/` si no existe.
-4. **No** guardar la definición del agente en `AI-Outputs/` — esa carpeta es solo para resultados de ejecución. El skill vive en `AI-Agents/po-expert-user-stories/`.
+3. Crear carpeta si no existe.
+4. **No** guardar la definición del agente en `AI-Outputs/`.
 
-### Cabecera del archivo `.md`
+### Sin workspace escribible
 
-```markdown
-# Historias de usuario — {título descriptivo}
-
-| Campo | Valor |
-|-------|--------|
-| **Fecha** | {YYYY-MM-DD} |
-| **Origen** | {breve lista de documentos, planillas o diagramas usados} |
-| **Alcance** | {épicas o IDs cubiertos} |
-| **Generado con** | skill `po-expert-user-stories` |
-| **Historias** | {N} |
-
----
-```
-
-### Sin workspace de proyecto
-
-Si no hay raíz escribible, avisa en el chat, entrega el markdown **completo** en un bloque y luego el CSV completo en otro, y sugiere guardarlos como `.md` y `.csv`.
+Avisar en el chat, entregar `.md` y `.csv` completos en bloques separados.
 
 ### Cierre en el chat
 
-Indica **las rutas** del `.md` y del `.csv`, el conteo de historias y cualquier advertencia o pregunta abierta relevante. No repitas el documento entero salvo que el usuario lo pida.
+Indicar rutas, conteo de historias (HU / HT / tareas), supuestos confirmados, spikes resueltos y advertencias. No repetir el documento entero.
 
-Luego aplicá git sync según `config.json` en la raíz del repo (`git_sync.mode`: `manual` | `automatic`). Ver [docs/git-sync.md](../../docs/git-sync.md).
+Luego aplicar git sync según `config.json` (`git_sync.mode`: `manual` | `automatic`).
 
-## Flujo de trabajo
+## Flujo de trabajo (orden estricto)
 
-1. **Detectar origen** del input (Excel canónico vs otro). Si Excel → leer [excel-input.md](excel-input.md).
-2. **Sintetizar por épica**: objetivo de negocio, actores, límites, métricas de éxito, riesgos.
-3. **Filtrar**: desestimar filas/celdas **tachadas** (Excel).
-4. **Identificar capacidades** y partir en historias (en Excel: separar **BE / FE / BFF** según corresponda).
-5. **Ordenar** por valor/riesgo, dependencias o capa.
-6. **Redactar cada historia** con la plantilla obligatoria. Escenarios del Excel → Gherkin completo; si `escenarios` vacío → derivar de `summary` + `objetivo`.
-7. **Revisión PO + checklist** de plantilla.
-8. **Recomendaciones aparte**: sección final del `.md` con escenarios que a tu criterio faltan (no mezclarlos como si vinieran del Excel).
-9. **Persistir** `.md` y `.csv`, y confirmar rutas en el chat.
+1. **Detectar origen** (Excel canónico vs otro). Si Excel → [excel-input.md](excel-input.md).
+2. **Sintetizar** objetivo de negocio, actores, límites, riesgos.
+3. **Filtrar** filas tachadas (Excel).
+4. **Identificar capacidades** → HU / HT / TAREA.
+5. Redactar **§0 – §3.3**.
+6. **PAUSA 1** — supuestos §3.3 (responder / skip).
+7. Redactar **§4 – §8** (RN, MSG, tarjetas §6/§7, tareas §8) usando supuestos confirmados.
+8. Redactar borrador **§9**.
+9. **PAUSA 2** — spikes/dudas §9 (aclarar / skip).
+10. Redactar **§10 – §13** incorporando respuestas de §9.
+11. **Revisión PO**: checklist abajo + coherencia MSG inline en todo BDD.
+12. **Persistir** `.md` + `.csv`.
 
-## Plantilla obligatoria (por historia)
+## Checklist de calidad antes de guardar
 
-El `.md` tiene: (A) **metadatos**, solo en el documento Markdown, y (B) **cuerpo de negocio**, que es exactamente el contenido de la columna Description del CSV.
-
-### Orden de secciones en el cuerpo (obligatorio)
-
-El cuerpo de negocio (`.md` debajo de metadatos y CSV Description) **empieza siempre en la primera línea con `COMO`**. No hay título previo.
-
-1. COMO / QUIERO / PARA  
-2. NECESIDAD / CONTEXTO  
-3. Tabla **ESCENARIOS**  
-4. Bloque **Escenarios BDD (Gherkin)** — todos los `**ID n-Escenario …**` con lógica  
-5. **Después de cerrar** el bloque Escenarios BDD (Gherkin), **en este orden**:  
-   - **Criterios de aceptación**  
-   - **Fuera de alcance**  
-   - **Notas / preguntas abiertas**  
-6. DOD / DOR (si aplican; por defecto **después** de Notas)
-
-**Prohibido** colocar Criterios de aceptación, Fuera de alcance o Notas/preguntas abiertas **antes** o **dentro** de Escenarios BDD (Gherkin).
-
-**Prohibido** como primera línea (o encabezado) del cuerpo / Description:
-- `Descripción`, `**Descripción**`, `# Descripción`, `## Descripción`
-- `Description`, `**Description**`, o equivalentes
-
-El campo o columna ya se llama Descripción; el contenido debe iniciar directo en `COMO` / `QUIERO` / `PARA`.
-
-### Separación obligatoria
-
-| Sección | Qué va | Qué NO va |
-|---------|--------|-----------|
-| **ESCENARIOS** (tabla) | Solo título corto | Notas de planilla crudas, Gherkin |
-| **Escenarios BDD (Gherkin)** | Lógica Dado/cuando/entonces (+ SI) por cada ID | Criterios “Que …”, fuera de alcance |
-| **Criterios de aceptación** | Líneas que empiezan con **Que** (texto verificable directo) | Feature/Scenario/Gherkin; etiquetas `[Feliz]`, `[Alternativo]`, `[Error]`, `[Validación]` u otras |
-| **Fuera de alcance** | Qué queda explícitamente fuera de esta HU | Flujos que sí deben probarse aquí |
-| **Notas / preguntas abiertas** | Dudas, supuestos, pendientes de negocio | Sustituto de escenarios |
-
-**Anti-patrón prohibido:** Gherkin dentro de criterios; títulos de planilla sin expandir; criterios/fuera de alcance/notas antes del cierre de Escenarios BDD.
-
-````markdown
-### HU-{CÓDIGO}.{NN} — {Título corto verificable}
-
-#### Metadatos y alcance de la historia
-- **ID Historia:** `HU-{CÓDIGO}.{NN}` (debe coincidir con **Issue Key** del CSV; si Excel venía vacío, ID generado)
-- **Tipo:** {Story | Task | Historia | Tarea}
-- **Capa:** {FE | BFF | BE | N/A} — solo si aplica
-- **Épica:** {CÓDIGO} — {nombre legible de la épica}
-- **Prioridad sugerida:** {Alta | Media | Baja} — {justificación}
-- **Dependencias:** {ninguna | lista breve}
-
-> Este bloque **Metadatos y alcance de la historia** es **solo para el `.md`**.  
-> **No** va en la columna Description del CSV (el CSV usa el cuerpo desde COMO).
-
----
-
-COMO {rol o interesado solicitante}
-QUIERO {requisito principal de la HU}
-PARA {objetivo principal a conseguir mediante la HU}
-
-
-NECESIDAD: {descripción de la necesidad}
-CONTEXTO: {información adicional}
-
-ESCENARIOS
-
-| ID | ESCENARIO |
-|----|-----------|
-| 1  | {título corto del escenario feliz} |
-| 2  | {título corto — omitir fila si no aplica} |
-| 3  | {título corto — escenario alternativo} |
-| 4  | {título corto — escenario de error} |
-| 5  | {título corto — omitir fila si no aplica} |
-
-### Escenarios BDD (Gherkin)
-
-**ID 1-Escenario {mismo título que en la tabla}**
-
-Dado {contexto del usuario / sistema}, cuando {acción},
-- entonces {resultado principal}
-- SI {condición / rama alternativa},
-  - {efecto 1}
-  - entonces {mensaje o efecto observable}
-  - {efecto adicional}
-- SI {otra condición},
-  - {efecto}
-
-**ID 2-Escenario {título}**
-
-Dado {…}, cuando {…},
-- entonces {…}
-
-**ID 3-Escenario {título}**
-
-Dado {…}, cuando {…},
-- entonces {…}
-
-**ID 4-Escenario {título}**
-
-Dado {…}, cuando {…},
-- entonces {mensaje de error / bloqueo / validación}
-
-**ID 5-Escenario {título — solo si existe en la tabla}**
-
-Dado {…}, cuando {…},
-- entonces {…}
-
-### Criterios de aceptación
-
-Que {objetivo funcional/técnico verificable 1}
-Que {objetivo funcional/técnico verificable 2}
-Que {objetivo funcional/técnico verificable 3}
-
-### Fuera de alcance
-
-- {qué no incluye esta HU}
-- {integraciones / pantallas / roles diferidos a otra historia}
-
-### Notas / preguntas abiertas
-
-- {duda o supuesto pendiente}
-- {pregunta para negocio / tech}
-
-DOD {link al documento o «pendiente»}
-DOR {link al documento o «pendiente»}
-````
-
-### Reglas de Escenarios BDD (Gherkin)
-
-- Encabezado de sección exacto: `### Escenarios BDD (Gherkin)`.
-- La tabla ESCENARIOS es un **índice** de títulos.
-- Debajo, **un bloque por fila**: `**ID {n}-Escenario {título}**` con `Dado` / `cuando` / `entonces` y ramas `SI` si aplica.
-- Al menos 1 feliz y 1 de error cuando el dominio lo permita.
-- Si el input solo trae **títulos** de escenarios (p. ej. columna Excel): usarlos en la tabla y **redactar** debajo la lógica Gherkin completa; incluir validaciones, errores o aclaraciones **si el escenario lo requiere**.
-- Escenarios **sugeridos** que no están en el Excel van a la sección **Recomendaciones de escenarios faltantes**, no se inventan dentro de BDD como si fueran del input.
-
-### Reglas de Criterios / Fuera de alcance / Notas
-
-- Van **solo después** de terminar todos los escenarios del bloque Escenarios BDD (Gherkin).
-- Criterios: cada línea empieza con **Que** y continúa con el criterio verificable. Sin Gherkin.
-- **No clasificar criterios** como feliz / alternativo / error / validación. **Prohibido** prefijos o etiquetas del tipo:
-  - `[Feliz]`, `[Alternativo]`, `[Error]`, `[Validación]`
-  - `Criterio N: [Feliz] …` / `Criterio N: [Alternativo] …`
-  - Cualquier otra etiqueta entre corchetes que tipifique el escenario
-- La distinción feliz / alternativo / error queda **solo** en la tabla ESCENARIOS y en **Escenarios BDD (Gherkin)**.
-- Fuera de alcance: lista breve; si no hay nada, escribir `Ninguno identificado.`
-- Notas / preguntas abiertas: si no hay, escribir `Ninguna por ahora.`
-
-### Checklist de calidad antes de guardar
-
-- [ ] Orden: … → Escenarios BDD (Gherkin) completo → Criterios → Fuera de alcance → Notas
-- [ ] Tabla `| ID | ESCENARIO |` + bloque por ID con lógica Gherkin expandida
-- [ ] Criterios solo “Que …” **sin** etiquetas `[Feliz]` / `[Alternativo]` / `[Error]` / `[Validación]` ni “Criterio N: […]”
-- [ ] Metadatos solo en `.md` (sección Metadatos y alcance); no en CSV Description
-- [ ] Description CSV / cuerpo `.md` = desde **COMO** hasta Notas/DOD (sin metadatos y **sin** línea inicial “Descripción”)
-- [ ] El `.md` incluye todas las historias completas, no un resumen
-- [ ] Si Excel: tachadas omitidas; `issue_key` vacío igual generado; capas BE/FE/BFF; sección **Recomendaciones de escenarios faltantes** al final
-
-## Formato del entregable global (`.md`)
-
-1. Cabecera del documento (tabla de metadatos).
-2. Resumen ejecutivo opcional: tabla épica → número de historias → riesgo principal.
-3. Por cada épica: `# Épica {X}: {nombre}`; si hay capas, subtítulos `# FE` / `# BFF` / `# BE` + historias `### HU-{CÓDIGO}.{NN} — …` completas.
-4. Glosario y definiciones si el dominio lo requiere.
-5. **`## Recomendaciones de escenarios faltantes`** (obligatoria si el origen es Excel; en otros orígenes, incluir si el PO detecta huecos relevantes).
+- [ ] Las **13 secciones** (0–13) están presentes y numeradas
+- [ ] §3.3 pasó por pausa HITL (o override documentado)
+- [ ] §9 pasó por pausa HITL (o override documentado)
+- [ ] §5 catálogo MSG completo; todo `MSG-XX` en BDD/AC incluye **texto inline**
+- [ ] Tarjetas §6/§7 con AC numerados + tags + Gherkin español
+- [ ] Escenarios fuente transcritos cuando el input los trae
+- [ ] §10 separado — recomendaciones no mezcladas con historias del input
+- [ ] §12 trazabilidad cruzada HU ↔ HT ↔ pantalla
+- [ ] CSV alineado con tarjetas ([csv-schema.md](csv-schema.md))
+- [ ] Si Excel: tachadas en §2; filas sin key con key propuesto
 
 ## Recursos adicionales
 
-- Excel (columnas y reglas): [excel-input.md](excel-input.md)
+- Plantilla 13 secciones: [md-template.md](md-template.md)
+- Excel: [excel-input.md](excel-input.md)
 - CSV: [csv-schema.md](csv-schema.md)
-- INVEST / story map / criterios: [reference.md](reference.md)
+- INVEST / story map: [reference.md](reference.md)

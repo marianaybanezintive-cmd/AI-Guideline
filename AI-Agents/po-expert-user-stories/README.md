@@ -3,9 +3,10 @@
 ```
 AI-Agents/po-expert-user-stories/
 ├── SKILL.md              ← Instrucciones del agente (punto de entrada en Cursor)
+├── md-template.md        ← Plantilla obligatoria: 13 secciones del .md de salida
 ├── excel-input.md        ← Reglas cuando el input es Excel (columnas canónicas)
 ├── csv-schema.md         ← Plantilla y reglas del CSV (4 columnas, `;`, Description)
-└── reference.md          ← Guía corta INVEST, criterios y story map
+└── reference.md          ← Guía INVEST, criterios, catálogo MSG, HITL
 
 AI-Outputs/po-expert-user-stories/
 ├── README.md             ← Destino de resultados (no es parte del skill)
@@ -16,36 +17,32 @@ AI-Outputs/po-expert-user-stories/
 
 - Lee documentos de negocio, story maps, diagramas, épicas o **Excel**.
 - Actúa como Product Owner senior (valor, independencia, trazabilidad).
-- Parte cada épica en historias de tamaño de sprint (con Excel: **BE / FE / BFF**).
-- Asigna IDs `HU-{CÓDIGO}.{NN}` (crea aunque `issue_key` Excel venga vacío).
-- **Desestima filas/celdas tachadas** en Excel.
-- Redacta COMO / QUIERO / PARA, NECESIDAD, CONTEXTO.
-- Escenarios del Excel → tabla + Gherkin completo (validaciones/errores si aplica).
-- Si `escenarios` vacío → deriva de `summary` + `objetivo`.
-- Criterios “Que …”; Fuera de alcance y Notas **después** del Gherkin.
-- Sección aparte: **Recomendaciones de escenarios faltantes**.
+- Genera un **`.md` con 13 secciones fijas** (0–13): contexto, RN, catálogo MSG, tarjetas HU/HT, spikes, trazabilidad, DoR/DoD.
+- **Pausa interactiva** en §3.3 (supuestos) y §9 (dudas/spikes) para que el usuario confirme o skipee cada ítem.
+- Tarjetas de backlog con Connextra, AC numerados (`[Feliz]`/`[Error]`/…), Gherkin en **español**.
+- Mensajes UI: catálogo en §5 + **texto inline** en escenarios BDD (no solo el código MSG).
+- Desestima filas tachadas (Excel); recomendaciones faltantes solo en §10.
 - Genera `.md` + `.csv` en `AI-Outputs/po-expert-user-stories/`.
-- En el chat solo confirma rutas y conteo.
 
 ## Qué hace cada archivo
 
 | Archivo | Rol |
 |---------|-----|
-| **SKILL.md** | Orquestador del agente: rol PO, entradas, flujo, plantilla de HU, checklist y rutas de salida. |
-| **excel-input.md** | Reglas Excel: tachadas, BE/FE/BFF, issue_key vacío, escenarios vacíos, Gherkin desde títulos, recomendaciones aparte. |
-| **csv-schema.md** | Contrato del CSV (4 columnas, `;`, Description multilínea). |
-| **reference.md** | INVEST, partir épicas, criterios, story map (excepción Excel para capas). |
+| **SKILL.md** | Orquestador: rol PO, flujo con pausas HITL, 13 secciones, reglas MSG inline, checklist. |
+| **md-template.md** | Estructura detallada de las 13 secciones y formato de tarjetas HU/HT. |
+| **excel-input.md** | Reglas Excel: tachadas, BE/FE/BFF, issue_key vacío, escenarios vacíos, dudas → §9. |
+| **csv-schema.md** | Contrato CSV (extracto por tarjeta para Jira). |
+| **reference.md** | INVEST, criterios, catálogo MSG, supuestos/spikes. |
 
-## Outputs (fuera del skill)
+## Ejemplo de referencia (solo estructura)
 
-| Destino | Rol |
-|---------|-----|
-| **AI-Outputs/po-expert-user-stories/** | Carpeta de resultados. El agente escribe aquí el `.md` y el `.csv` de cada ejecución. |
+`AI-Outputs/po-expert-user-stories/historias-usuario-login_v2.0.0.md` ilustra el formato de las **13 secciones** y tarjetas. El agente **no** reutiliza el contenido LOGIN: aplica la misma estructura a **cualquier** épica.
 
 ## Cómo usarlo en Cursor
 
 1. Abrí el workspace del repo `AI-Guideline` (o un proyecto que lo tenga).
-2. Pedí: *“usá el skill po-expert-user-stories”* y adjuntá épicas / docs / planillas.
-3. Revisá los archivos generados en `AI-Outputs/po-expert-user-stories/`.
+2. Pedí: *«usá el skill po-expert-user-stories»* y adjuntá épicas / docs / planillas.
+3. Respondé o skipeá supuestos (§3.3) y dudas (§9) cuando el agente pause.
+4. Revisá los archivos en `AI-Outputs/po-expert-user-stories/`.
 
-Instalación opcional en cualquier máquina: copiar o enlazar esta carpeta a `~/.agents/skills/po-expert-user-stories/`.
+Instalación opcional: copiar o enlazar esta carpeta a `~/.agents/skills/po-expert-user-stories/`.

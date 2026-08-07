@@ -23,7 +23,7 @@ Otras columnas (capa, BE/FE/BFF, prioridad, dependencia) se usan si existen.
 - Ignorar filas o celdas con **texto tachado** (strikethrough).
 - Si solo parte de una celda está tachada, omitir ese fragmento.
 - Si toda la fila está tachada o marcada como desestimada/cancelada: **no** generar HU.
-- Listar en el informe final (cabecera o anexo breve) cuántas filas se omitieron por tachado.
+- Registrar **cada fila** en §2 (Matriz de inclusión / desestimación) con motivo. Cerrar §2 con resumen numérico.
 
 ### 2. Separar por capa BE / FE / BFF
 
@@ -33,7 +33,7 @@ Otras columnas (capa, BE/FE/BFF, prioridad, dependencia) se usan si existen.
   - **BE**: dominio, persistencia, reglas de negocio server-side, jobs, integraciones.
 - Si una fila mezcla capas: **partir** en HUs distintas (una por capa), compartiendo objetivo de negocio y enlazando dependencias.
 - Si la fila ya es de una sola capa: una HU; poner **Capa:** `FE` | `BFF` | `BE` en Metadatos.
-- En el `.md`, agrupar bajo subtítulos `# FE` / `# BFF` / `# BE` (dentro de la épica) cuando haya varias capas.
+- En §6/§7, etiquetar tipo `HU-FE`, `HU-BE` o `HT` según capa. Agrupar tarjetas por capa si mejora la lectura.
 
 > Esto **prioriza** la separación por capa del Excel frente a la heurística general “no partir por capa técnica” de `reference.md`.
 
@@ -41,52 +41,54 @@ Otras columnas (capa, BE/FE/BFF, prioridad, dependencia) se usan si existen.
 
 - Si `issue_key` está vacío: **igual** generar la historia.
 - Asignar ID temporal nuevo `HU-{CÓDIGO}.{NN}` (siguiente libre en el lote).
-- En Metadatos: `ID Historia` = el generado; nota breve “issue_key vacío en Excel”.
+- En la tarjeta y §2: marcar key como *propuesto*; nota en §11 si aplica.
 
 ### 4. `escenarios` vacío → derivar de Summary + Objetivo
 
 - Si `escenarios` está vacío o es “N/A”:
   - Inferir al menos: **1 escenario feliz** y **1 de error/validación** a partir de `summary` + `objetivo`.
-  - Documentar en Notas: “Escenarios derivados de Summary/Objetivo (columna Escenarios vacía)”.
+  - Documentar en Notas de la tarjeta: “Escenarios derivados de Summary/Objetivo (columna Escenarios vacía)”.
 
 ### 5. Escenarios del Excel → Gherkin completo
 
-- Cada ítem/título en `escenarios` va a la tabla ESCENARIOS.
-- Por cada título: bloque `**ID n-Escenario {título}**` con lógica Gherkin (`Dado` / `cuando` / `entonces`, ramas `SI` si aplica).
-- Incluir validaciones, errores, mensajes y aclaraciones **cuando el escenario lo requiera** (no inventar capas de error genéricas si el título es claramente solo feliz).
+- Transcribir `escenarios` literalmente en **Escenarios fuente** de la tarjeta.
+- Expandir a **AC numerados** y bloque **Escenarios BDD** en Gherkin **español** (`Característica`, `Dado`, `Cuando`, `Entonces`, `Y`).
+- Incluir validaciones, errores y mensajes UI (**MSG-XX con texto inline** desde §5) cuando el escenario lo requiera.
 - No dejar la columna Escenarios como viñetas crudas sin expandir.
 
-### 6. Dudas del Excel
+### 6. Dudas del Excel → §9
 
-- Llevar la columna `dudas` a **Notas / preguntas abiertas** de la HU correspondiente.
-- Si está vacía: `Ninguna por ahora.` (salvo notas propias del agente).
+- Consolidar la columna `dudas` (y contradicciones detectadas) en **§9 Spikes y decisiones pendientes** con IDs `S-01`, `S-02`, …
+- Dudas puntuales de una HU pueden repetirse brevemente en **Notas** de la tarjeta, pero la tabla §9 es el registro maestro.
+- Tras redactar §9, aplicar **pausa HITL** (responder o skip por ítem) según `SKILL.md`.
 
-### 7. Recomendaciones de escenarios faltantes (sección aparte)
+### 7. Supuestos → §3.3
 
-Al **final del `.md`**, sección separada (no mezclar dentro de cada HU):
+- Supuestos técnicos o de negocio inferidos del Excel/documentos van a **§3.3** (`SUP-01`, …), no dispersos en Notas.
+- Tras redactar §3.3, aplicar **pausa HITL** según `SKILL.md`.
 
-```markdown
-## Recomendaciones de escenarios faltantes
+### 8. Recomendaciones → §10 (sección aparte)
 
-### {ID o Summary de la HU}
-- {escenario sugerido y por qué}
-```
+En **§10 Recomendaciones del PO — historias faltantes** (no mezclar con tarjetas §6/§7):
 
-- Listar, a criterio PO, escenarios que **faltarían** (error, vacío, permisos, timeout, duplicados, etc.) no cubiertos por el Excel.
-- No inventarlos dentro de Escenarios BDD como si vinieran del Excel; van **solo** en esta sección de recomendaciones.
-- Si no hay sugerencias: `Sin recomendaciones adicionales.`
+- Historias que **no están** en el Excel pero el PO considera necesarias (`R-01`, …).
+- Subsecciones 10.1 (imprescindibles) y 10.2 (recomendadas) con prioridad sugerida.
+- Escenarios faltantes de una HU existente pueden citarse en §10 o en Notas de la tarjeta, **no** inventados dentro de BDD como si vinieran del Excel.
 
-## Mapeo fila Excel → plantilla HU
+## Mapeo fila Excel → documento `.md`
 
-| Excel | Destino en HU |
-|-------|----------------|
-| `issue_key` (o generado) | Metadatos → ID Historia / Issue Key CSV |
-| `issue_type` | Metadatos + Issue Type CSV (`Story`/`Task`) |
-| `summary` | Título tras `### ID — ` y QUIERO (ajustado) |
-| `objetivo` | PARA + aporte a NECESIDAD |
-| `escenarios` | Tabla ESCENARIOS + bloques Gherkin |
-| `dudas` | Notas / preguntas abiertas |
-| Capa / BE-FE-BFF | Metadatos → **Capa** + agrupación en el MD |
+| Excel | Destino |
+|-------|---------|
+| Cada fila | §2 matriz inclusión/desestimación |
+| `issue_key` (o generado) | Key de tarjeta §6/§7 + Issue Key CSV |
+| `issue_type` | Tipo tarjeta + Issue Type CSV |
+| `summary` | Título tarjeta + Summary CSV |
+| `objetivo` | Connextra «para» + Valor de negocio |
+| `escenarios` | Escenarios fuente + AC + Gherkin |
+| `dudas` | §9 (+ Notas tarjeta si aplica) |
+| Capa / BE-FE-BFF | Tipo `HU-FE` / `HU-BE` / `HT` |
+| Inconsistencias | §11 Observaciones |
+| Trazabilidad HU-endpoint | §12 Matriz |
 
 ## Si el formato del Excel cambia
 
