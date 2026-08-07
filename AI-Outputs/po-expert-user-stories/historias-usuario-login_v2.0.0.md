@@ -27,19 +27,6 @@
 
 ---
 
-## 0. Qué cambia respecto de v1.0.0
-
-Cambios de **forma de escritura** (el alcance, filas incluidas/desestimadas, RN, MSG, spikes, R-01..R-15, endpoints y escenarios fuente del Excel son idénticos a v1.0.0):
-
-1. Cada HU/HT se presenta como **tarjeta de backlog** con metadatos en tabla (Tipo, Épica, Actor, Dominios, Prioridad, Depende de, Habilita, Pantalla POC / Contrato).
-2. La historia Connextra va en multilínea `Como / quiero / para` **sin** negritas COMO/QUIERO/PARA.
-3. Se separan **Criterios de aceptación** numerados (fuente de verdad del PO, con tags `[Feliz]`, `[Alternativo]`, `[Error]`, `[Validación]`) de los **Escenarios BDD**.
-4. Gherkin con **palabras clave en español**: `Característica`, `Antecedentes`, `Escenario`, `Esquema del escenario`, `Ejemplos`, `Dado`, `Cuando`, `Entonces`, `Y`.
-5. Cada HU incluye **Valor de negocio**, **Fuera de alcance**, **Notas / preguntas abiertas** y **Chequeo INVEST**.
-6. Cada HT incluye **Objetivo técnico**, AC numerados, BDD en español y tabla **Errores esperados**.
-
----
-
 ## 1. Criterio de elaboración y alcance
 
 | Criterio | Decisión aplicada |
