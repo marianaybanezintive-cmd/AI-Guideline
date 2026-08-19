@@ -25,6 +25,9 @@ param(
 
     [string]$Assignee = "",
 
+    [ValidateSet("same_sprint", "backlog")]
+    [string]$TargetPlacement = "same_sprint",
+
     [switch]$DryRun
 )
 
@@ -76,6 +79,7 @@ $cloneArgs = @(
     "--status", $Status,
     "--title-prefix", $TitlePrefix,
     "--assignee", $Assignee,
+    "--target-placement", $TargetPlacement,
     "-o", $lastRunPath
 )
 if ($DryRun) { $cloneArgs += "--dry-run" }

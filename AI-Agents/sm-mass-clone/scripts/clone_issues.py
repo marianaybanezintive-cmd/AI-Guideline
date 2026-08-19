@@ -63,7 +63,14 @@ def jql_quote(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def build_jql(config: dict, origin_type: str, origin_value: str, issue_types: list[str], statuses: list[str]) -> str:
+def build_jql(
+    config: dict,
+    origin_type: str,
+    origin_value: str,
+    issue_types: list[str],
+    statuses: list[str],
+    status_mode: str | None = None,
+) -> str:
     project = config["project_key"]
     parts = [f"project = {project}"]
 
@@ -93,7 +100,9 @@ def build_jql(config: dict, origin_type: str, origin_value: str, issue_types: li
             joined = ", ".join(jql_quote(t) for t in issue_types)
             parts.append(f"issuetype in ({joined})")
 
-    if statuses:
+    if status_mode == "open":
+        parts.append("statusCategory != Done")
+    elif statuses:
         if len(statuses) == 1:
             parts.append(f"status = {jql_quote(statuses[0])}")
         else:
@@ -233,6 +242,7 @@ def clone_one(
     assignee_account_id: str | None,
     assignee_name: str | None,
     sprint_field_id: str | None,
+    target_placement: str,
 ) -> dict:
     fields = issue.get("fields") or {}
     original_key = issue["key"]
@@ -280,8 +290,9 @@ def clone_one(
 
         link_relates(client, clone_key, original_key, link_type)
 
-        for sid in sprint_ids:
-            add_to_sprint(client, sid, clone_key)
+        if target_placement == "same_sprint":
+            for sid in sprint_ids:
+                add_to_sprint(client, sid, clone_key)
 
         result["ok"] = True
         if result["error"]:
@@ -305,6 +316,12 @@ def main() -> None:
     parser.add_argument("--status", required=True, help="Estado Jira a filtrar")
     parser.add_argument("--title-prefix", default="", help='Nomenclatura de título, ej. "QA - "')
     parser.add_argument("--assignee", default="", help="Nombre o email del asignado (opcional)")
+    parser.add_argument(
+        "--target-placement",
+        default="same_sprint",
+        choices=["same_sprint", "backlog"],
+        help="Ubicación destino del clon: mismo sprint del original o backlog.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Solo lista candidatos, no clona")
     parser.add_argument("-o", "--output", required=True, help="JSON de resultado (last-run.json)")
     args = parser.parse_args()
@@ -321,8 +338,10 @@ def main() -> None:
     sprint_field_id = resolve_field_id(field_map, SPRINT_FIELD_NAMES)
 
     issue_types = resolve_alias(args.issue_type, config.get("issue_type_aliases") or {})
-    statuses = resolve_alias(args.status, config.get("status_aliases") or {})
-    jql = build_jql(config, args.origin_type, args.origin_value, issue_types, statuses)
+    status_input = (args.status or "").strip().lower()
+    status_mode = "open" if status_input in {"all_open_like", "open", "abiertos", "no_finalizados"} else None
+    statuses = [] if status_mode == "open" else resolve_alias(args.status, config.get("status_aliases") or {})
+    jql = build_jql(config, args.origin_type, args.origin_value, issue_types, statuses, status_mode=status_mode)
 
     print(f"JQL: {jql}", file=sys.stderr)
     issues = client.search_jql(
@@ -386,6 +405,7 @@ def main() -> None:
                 assignee_account_id,
                 assignee_name,
                 sprint_field_id,
+                args.target_placement,
             )
             results.append(row)
             time.sleep(0.2)
@@ -399,9 +419,11 @@ def main() -> None:
             "issue_type": args.issue_type,
             "issue_types_resolved": issue_types,
             "status": args.status,
+            "status_mode": status_mode,
             "statuses_resolved": statuses,
             "title_prefix": prefix,
             "assignee": assignee_name or args.assignee or None,
+            "target_placement": args.target_placement,
             "jql": jql,
         },
         "counts": {
