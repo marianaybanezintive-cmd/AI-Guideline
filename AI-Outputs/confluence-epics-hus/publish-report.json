@@ -1,0 +1,380 @@
+{
+  "epics": [
+    {
+      "key": "MAGIA-346",
+      "title": "Confirming",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625687845/Confirming",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-346",
+      "title": "Confirming — Técnica",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625688617/Confirming+T+cnica",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-347",
+      "title": "Gestión de Facturas",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625687859/Gesti+n+de+Facturas",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-347",
+      "title": "Gestión de Facturas — Técnica",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625688631/Gesti+n+de+Facturas+T+cnica",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-348",
+      "title": "Simulación de Adelantos",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625687873/Simulaci+n+de+Adelantos",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-348",
+      "title": "Simulación de Adelantos — Técnica",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625688645/Simulaci+n+de+Adelantos+T+cnica",
+      "action": "updated"
+    }
+  ],
+  "stories": [
+    {
+      "key": "MAGIA-463",
+      "epic": "MAGIA-346",
+      "title": "Fase 1- FE-Ver la grilla de facturas con los datos operativos de cada una |  Recurso: todos | Dominio: todos",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654456324/Fase+1-+FE-Ver+la+grilla+de+facturas+con+los+datos+operativos+de+cada+una+Recurso+todos+Dominio+todos",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-464",
+      "epic": "MAGIA-346",
+      "title": "Fase 1- FE- Filtrar y buscar facturas en la grilla  | Recurso: todos | Dominio: todos",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654620170/Fase+1-+FE-+Filtrar+y+buscar+facturas+en+la+grilla+Recurso+todos+Dominio+todos",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-465",
+      "epic": "MAGIA-346",
+      "title": "Fase 1- FE-Separar las facturas en pestañas Vigentes / No Vigentes / No Operables",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654718491/Fase+1-+FE-Separar+las+facturas+en+pesta+as+Vigentes+No+Vigentes+No+Operables",
+      "action": "created",
+      "images": 3
+    },
+    {
+      "key": "MAGIA-466",
+      "epic": "MAGIA-346",
+      "title": "Fase 1- Disponer de la botón Habilitar / Ver Simulación en columna de acciones por factura en la grilla",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655209986/Fase+1-+Disponer+de+la+bot+n+Habilitar+Ver+Simulaci+n+en+columna+de+acciones+por+factura+en+la+grilla",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-467",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Eliminar una factura con confirmación previa",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655242753/Fase+2-Eliminar+una+factura+con+confirmaci+n+previa",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-468",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Editar la fecha de pago de una factura con aviso de impacto",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653800964/Fase+2-Editar+la+fecha+de+pago+de+una+factura+con+aviso+de+impacto",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-469",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-FE-Abrir desde la grilla el modal de aprobación del EGP con los datos bloqueados",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654718509/Fase+1-FE-Abrir+desde+la+grilla+el+modal+de+aprobaci+n+del+EGP+con+los+datos+bloqueados",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-470",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-FE-Ver la información financiera del EGP para decidir el adelanto",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654816771/Fase+1-FE-Ver+la+informaci+n+financiera+del+EGP+para+decidir+el+adelanto",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-471",
+      "epic": "MAGIA-346",
+      "title": "NO APLICA-Ver la información financiera del Proveedor de la factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655177218/NO+APLICA-Ver+la+informaci+n+financiera+del+Proveedor+de+la+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-472",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-FE-Ver el límite de crédito disponible descontando lo freezado",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654423578/Fase+1-FE-Ver+el+l+mite+de+cr+dito+disponible+descontando+lo+freezado",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-473",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Habilitar varias facturas en una sola acción",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654784003/Fase+2-Habilitar+varias+facturas+en+una+sola+acci+n",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-474",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Bloquear varias facturas en una sola acción",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654259720/Fase+2-Bloquear+varias+facturas+en+una+sola+acci+n",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-485",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-BFF/BE GET · Grilla de facturas",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654456342/Fase+1-BFF+BE+GET+Grilla+de+facturas",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-486",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-PATCH · Actualizar factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654456360/Fase+1-PATCH+Actualizar+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-487",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-BFF/BE - GET · Información financiera del ente",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655308289/Fase+1-BFF+BE+-+GET+Informaci+n+financiera+del+ente",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-488",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-BE - Motor de la máquina de estados de facturas",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655013391/Fase+1-BE+-+Motor+de+la+m+quina+de+estados+de+facturas",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-489",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Transición automática a Vencida",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655046172/Fase+2-Transici+n+autom+tica+a+Vencida",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-490",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-Transición automática a NO ELEGIBLE y retorno por corrección de fecha",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654358018/Fase+2-Transici+n+autom+tica+a+NO+ELEGIBLE+y+retorno+por+correcci+n+de+fecha",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-491",
+      "epic": "MAGIA-346",
+      "title": "Fase 1-BFF/BE - GET · Estados de facturas y condiciones de cambio",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655341057/Fase+1-BFF+BE+-+GET+Estados+de+facturas+y+condiciones+de+cambio",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-498",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-  Disponer de la botonera de acciones completa por factura en la grilla",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653997573/Fase+2-+Disponer+de+la+botonera+de+acciones+completa+por+factura+en+la+grilla",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-499",
+      "epic": "MAGIA-346",
+      "title": "Fase 2-PATCH · Actualizar factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653932038/Fase+2-PATCH+Actualizar+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-457",
+      "epic": "MAGIA-347",
+      "title": "Fase 1- FE - Cargar una factura individual desde la pantalla Confirming",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654751234/Fase+1-+FE+-+Cargar+una+factura+individual+desde+la+pantalla+Confirming",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-458",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-Validar que el EGP y el Proveedor de la factura existan y estén activos",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655013422/Fase+2-Validar+que+el+EGP+y+el+Proveedor+de+la+factura+existan+y+est+n+activos",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-459",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-Descargar el template de carga masiva de facturas",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654325258/Fase+2-Descargar+el+template+de+carga+masiva+de+facturas",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-460",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-Cargar facturas de forma masiva desde un archivo",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654456378/Fase+2-Cargar+facturas+de+forma+masiva+desde+un+archivo",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-461",
+      "epic": "MAGIA-347",
+      "title": "Fase 3-Cargar una factura escaneando el documento",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653735427/Fase+3-Cargar+una+factura+escaneando+el+documento",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-462",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-Cargar facturas en más de una moneda (USD / GS)",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653866500/Fase+2-Cargar+facturas+en+m+s+de+una+moneda+USD+GS",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-482",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-GET · Información de existencia y estado del ente",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655177236/Fase+2-GET+Informaci+n+de+existencia+y+estado+del+ente",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-483",
+      "epic": "MAGIA-347",
+      "title": "Fase 1-BFF/BE - POST · Crear factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654816789/Fase+1-BFF+BE+-+POST+Crear+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-484",
+      "epic": "MAGIA-347",
+      "title": "Fase 2-POST · Notificación de nueva factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653866518/Fase+2-POST+Notificaci+n+de+nueva+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-475",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-FE-Simular el adelanto de una factura individual",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653735445/Fase+1-FE-Simular+el+adelanto+de+una+factura+individual",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-476",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-Simular el adelanto de varias facturas con la misma fecha de pago",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654390794/Fase+2-Simular+el+adelanto+de+varias+facturas+con+la+misma+fecha+de+pago",
+      "action": "created",
+      "images": 1
+    },
+    {
+      "key": "MAGIA-477",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-Simular el adelanto de varias facturas con fechas de pago distintas",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654521890/Fase+2-Simular+el+adelanto+de+varias+facturas+con+fechas+de+pago+distintas",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-478",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-Impedir simular facturas que excedan el límite de crédito del EGP",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653866536/Fase+2-Impedir+simular+facturas+que+excedan+el+l+mite+de+cr+dito+del+EGP",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-479",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-FE-Freezar el límite de crédito al confirmar la simulación",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655078914/Fase+1-FE-Freezar+el+l+mite+de+cr+dito+al+confirmar+la+simulaci+n",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-480",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-FE-Aprobar como EGP la solicitud de adelanto",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654128642/Fase+1-FE-Aprobar+como+EGP+la+solicitud+de+adelanto",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-481",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-FE-Rechazar como EGP la solicitud de adelanto, con o sin motivo",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654063143/Fase+2-FE-Rechazar+como+EGP+la+solicitud+de+adelanto+con+o+sin+motivo",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-492",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-BFF/BE - GET · Simulación de adelanto de factura - Mock por dependencia CORE",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654489092/Fase+1-BFF+BE+-+GET+Simulaci+n+de+adelanto+de+factura+-+Mock+por+dependencia+CORE",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-493",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-BFF/BE - POST · Generar adelanto de factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654915089/Fase+1-BFF+BE+-+POST+Generar+adelanto+de+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-494",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-POST · Notificación de adelanto de factura",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654980617/Fase+2-POST+Notificaci+n+de+adelanto+de+factura",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-500",
+      "epic": "MAGIA-348",
+      "title": "Fase 2-Aprobar como EGP la solicitud de adelanto - múltiple",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1655373825/Fase+2-Aprobar+como+EGP+la+solicitud+de+adelanto+-+m+ltiple",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-502",
+      "epic": "MAGIA-348",
+      "title": "Fase 1-PATCH · Envio de solicitud de adelanto al CORE y actualizacion de estado mock por dependencia del core",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653866554/Fase+1-PATCH+Envio+de+solicitud+de+adelanto+al+CORE+y+actualizacion+de+estado+mock+por+dependencia+del+core",
+      "action": "created",
+      "images": 0
+    }
+  ],
+  "deleted_qa": [],
+  "errors": []
+}
