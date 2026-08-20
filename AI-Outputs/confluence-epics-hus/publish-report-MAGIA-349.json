@@ -1,0 +1,44 @@
+{
+  "epics": [
+    {
+      "key": "MAGIA-349",
+      "title": "Desembolso",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625687887/Desembolso",
+      "action": "updated"
+    },
+    {
+      "key": "MAGIA-349",
+      "title": "Desembolso — Técnica",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1625688659/Desembolso+T+cnica",
+      "action": "updated"
+    }
+  ],
+  "stories": [
+    {
+      "key": "MAGIA-544",
+      "epic": "MAGIA-349",
+      "title": "API Integración CORE Banking - Solicitud de Crédito",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654849560/API+Integraci+n+CORE+Banking+-+Solicitud+de+Cr+dito",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-545",
+      "epic": "MAGIA-349",
+      "title": "BE-Notificación al EGP del prestamo generado",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1654751254/BE-Notificaci+n+al+EGP+del+prestamo+generado",
+      "action": "created",
+      "images": 0
+    },
+    {
+      "key": "MAGIA-546",
+      "epic": "MAGIA-349",
+      "title": "Notificación al Proveedor de la factura generada",
+      "url": "https://bancoatlaspy.atlassian.net/wiki/spaces/~5ffedd6764208901414b0121/pages/1653932067/Notificaci+n+al+Proveedor+de+la+factura+generada",
+      "action": "created",
+      "images": 0
+    }
+  ],
+  "deleted_qa": [],
+  "errors": []
+}

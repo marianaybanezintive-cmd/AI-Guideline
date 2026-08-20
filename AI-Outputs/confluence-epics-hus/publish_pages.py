@@ -1,4 +1,4 @@
-"""Publica épicas y HUs de MAGIA-346/347/348 en Confluence.
+"""Publica épicas y HUs de MAGIA-346/347/348/349 en Confluence.
 
 - Épicas: actualiza páginas bajo Documentación Funcional y Documentación Técnica.
 - HUs (tipo Historia, título que no empieza con QA): subpáginas solo bajo Funcional.
@@ -47,6 +47,13 @@ EPICS = [
         "funcional_id": "1625687873",
         "tecnica_id": "1625688645",
         "tecnica_title": "Simulación de Adelantos — Técnica",
+    },
+    {
+        "key": "MAGIA-349",
+        "title": "Desembolso",
+        "funcional_id": "1625687887",
+        "tecnica_id": "1625688659",
+        "tecnica_title": "Desembolso — Técnica",
     },
 ]
 
@@ -408,7 +415,7 @@ def upsert_page(wiki: WikiClient, parent_id: str, title: str, html: str, existin
         raise
 
 
-def main():
+def main(only_keys=None):
     load_user_env_fallback()
     jira = JiraClient()
     wiki = WikiClient(jira)
@@ -418,8 +425,14 @@ def main():
         "deleted_qa": [],
         "errors": [],
     }
+    epics = EPICS
+    if only_keys:
+        wanted = {k.strip().upper() for k in only_keys}
+        epics = [e for e in EPICS if e["key"] in wanted]
+        if not epics:
+            raise SystemExit(f"No hay épicas configuradas para: {sorted(wanted)}")
 
-    for epic in EPICS:
+    for epic in epics:
         print(f"\n=== {epic['key']} {epic['title']} ===")
         issue = jira.get(
             f"/rest/api/3/issue/{epic['key']}",
@@ -530,7 +543,9 @@ def main():
                 print(f"  ERROR {key}: {exc}")
                 report["errors"].append(f"{key}: {exc}")
 
-    out = Path(__file__).resolve().parent / "publish-report.json"
+    suffix = "-".join(e["key"] for e in epics) if only_keys else ""
+    name = f"publish-report-{suffix}.json" if suffix else "publish-report.json"
+    out = Path(__file__).resolve().parent / name
     out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"\nReporte: {out}")
     print(
@@ -542,4 +557,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--only",
+        nargs="+",
+        help="Claves de épica a publicar, p. ej. MAGIA-349",
+    )
+    args = parser.parse_args()
+    main(only_keys=args.only)
