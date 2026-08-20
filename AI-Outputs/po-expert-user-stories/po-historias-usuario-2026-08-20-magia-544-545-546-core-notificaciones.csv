@@ -1,0 +1,243 @@
+﻿"Issue Type";"Issue Key";"Summary";"Description"
+"Story";"MAGIA-544";"API Integración CORE Banking - Solicitud de Crédito";"Objetivo técnico: Enviar a CORE BANKING la solicitud de crédito de un adelanto ya aprobado por el EGP, persistir la relación cuenta préstamo ↔ facturas y, cuando CORE devuelva el número de préstamo, dejar la/s factura/s en estado final Financiada. Ante error de CORE, revertir a Pendiente aprobación EGP sin disparar notificaciones MAGIA-545/546.
+
+Escenarios fuente:
+1. Feliz — CORE acepta y devuelve nro. de préstamo: se persiste la relación préstamo-factura; facturas → Financiada.
+2. Feliz — Operación de una o N cuotas / N facturas: un préstamo, un nro., N facturas asociadas.
+3. Alternativo — Reintento idempotente: no se genera un segundo préstamo.
+4. Error — CORE rechaza o no devuelve nro. de préstamo: no queda préstamo; facturas vuelven a Pendiente aprobación EGP; no hay 545/546.
+5. Error — Timeout / servicio no disponible: misma reversión de negocio que error CORE (RN-C12).
+
+Criterios de aceptación:
+1. [Feliz / Validación] Solo se invoca si la solicitud está aprobada por el EGP y las facturas están en Pendiente de desembolso (T-07). Si el estado no es válido, responde 409 FACTURA_ESTADO_INVALIDO y no llama a CORE.
+2. [Feliz] El payload a CORE incluye: identificador de solicitud Atlas, EGP, Proveedor, moneda, plan de cuotas (1 o N), importe, y el número de cada factura que compone el préstamo (RN-CORE-02).
+3. [Feliz] Condición de éxito: CORE responde con un número de préstamo no vacío (RN-CORE-01). Atlas persiste {nroPrestamo} en la solicitud y en cada factura componente.
+4. [Feliz] Al cumplirse el criterio 3, todas las facturas de la solicitud pasan a Financiada (estado final, T-11, RN-C12). El FE, al refrescar, muestra MSG-C54: ""Desembolso completado por CORE BANKING. La factura {id} pasa a estado \""Financiada\""."" Mientras tanto la fila puede mostrar MSG-C19: ""CORE BANKING desembolsando…"".
+5. [Feliz] Tras el criterio 3 se disparan MAGIA-545 y MAGIA-546 (RN-CORE-04).
+6. [Feliz] Operación múltiple: un llamado CORE, un {nroPrestamo}, N facturas Financiada (RN-CORE-06).
+7. [Alternativo] Reintento con la misma clave de idempotencia: no se genera un segundo préstamo; se reutiliza el {nroPrestamo} ya persistido (RN-CORE-03).
+8. [Error] Si CORE responde error, o responde OK sin número de préstamo, o hay timeout: no se persiste préstamo; las facturas vuelven a Pendiente aprobación EGP (T-12); el FE puede mostrar MSG-C53: ""La API CORE BANKING reportó un ERROR al desembolsar la factura {id}. La factura vuelve a \""Pendiente aprobación EGP\"" para reintentar.""; no se envían MAGIA-545 ni MAGIA-546.
+9. [Error] La reversión no deja estados intermedios inconsistentes: no puede quedar un subconjunto de facturas Financiada y otro no.
+10. [Validación] Auditoría: usuario/sistema, timestamp, id solicitud, facturas, importes, plan de cuotas, {nroPrestamo} o código de error CORE, resultado.
+11. [Validación] No reimplementa segregación de funciones ni corte 17 hs.
+
+Escenarios BDD (Gherkin):
+Característica: Solicitud de crédito a CORE BANKING
+  Antecedentes:
+    Dado que existe la solicitud de adelanto ""SOL-9001"" creada por MAGIA-493
+    Y el EGP la aprobó
+    Y las facturas de ""SOL-9001"" están en ""Pendiente de desembolso""
+
+  Escenario: CORE devuelve número de préstamo y las facturas pasan a Financiada
+    Cuando Atlas envía la solicitud de crédito de ""SOL-9001"" al CORE
+    Y CORE responde OK con número de préstamo ""PREST-1001""
+    Entonces Atlas persiste ""PREST-1001"" en la solicitud y en cada factura componente
+    Y queda registrada la relación cuenta préstamo ""PREST-1001"" con los números de factura
+    Y todas las facturas de ""SOL-9001"" pasan a ""Financiada""
+    Y se habilitan las notificaciones MAGIA-545 y MAGIA-546
+    Y al refrescar la grilla el operador puede ver MSG-C54: ""Desembolso completado por CORE BANKING. La factura {id} pasa a estado \""Financiada\"".""
+
+  Escenario: Adelanto múltiple — un préstamo y N facturas Financiada
+    Dado que ""SOL-9002"" agrupa cuatro facturas del mismo EGP-Proveedor-moneda
+    Cuando CORE responde OK con número de préstamo ""PREST-1002""
+    Entonces las cuatro facturas pasan a ""Financiada""
+    Y las cuatro quedan asociadas a ""PREST-1002""
+    Y no se genera un segundo número de préstamo
+
+  Escenario: Idempotencia ante reintento
+    Dado que ""SOL-9001"" ya tiene persistido el préstamo ""PREST-1001""
+    Cuando se reenvía la misma solicitud de crédito con la misma clave de idempotencia
+    Entonces no se crea un segundo préstamo
+    Y las facturas permanecen en ""Financiada""
+
+  Escenario: CORE responde error — reversión y sin notificaciones
+    Cuando Atlas envía la solicitud de crédito de ""SOL-9001"" al CORE
+    Y CORE responde error
+    Entonces no se persiste número de préstamo
+    Y las facturas de ""SOL-9001"" vuelven a ""Pendiente aprobación EGP""
+    Y no se dispara MAGIA-545
+    Y no se dispara MAGIA-546
+    Y el FE puede mostrar MSG-C53: ""La API CORE BANKING reportó un ERROR al desembolsar la factura {id}. La factura vuelve a \""Pendiente aprobación EGP\"" para reintentar.""
+
+  Escenario: CORE OK sin número de préstamo se trata como error
+    Cuando CORE responde OK pero sin número de préstamo
+    Entonces no se persiste préstamo
+    Y las facturas vuelven a ""Pendiente aprobación EGP""
+    Y no se disparan MAGIA-545 ni MAGIA-546
+
+  Escenario: Estado inválido no llama a CORE
+    Dado que una factura de la solicitud no está en ""Pendiente de desembolso""
+    Cuando se intenta enviar la solicitud de crédito
+    Entonces Atlas no llama a CORE
+    Y responde 409 con código FACTURA_ESTADO_INVALIDO
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+| 409 | FACTURA_ESTADO_INVALIDO | La solicitud no está en Pendiente de desembolso / EGP no aprobó |
+| 404 | SOLICITUD_NO_ENCONTRADA | idSolicitud inexistente |
+| 409 | PRESTAMO_YA_GENERADO | Idempotencia: ya existe nroPrestamo |
+| 422 | PLAN_CUOTAS_NO_SOPORTADO | El plan de cuotas no es admitido por CORE |
+| 502 | CORE_ERROR | CORE rechazó o no devolvió nro. de préstamo; reversión T-12 |
+| 504 | CORE_TIMEOUT | Sin respuesta a tiempo; misma reversión que CORE_ERROR |
+| 503 | SERVICIO_NO_DISPONIBLE | Error de dependencia Atlas previo al llamado CORE |
+
+Fuera de alcance:
+- Mock de latencia/error de Fase 1: MAGIA-502
+- Creación de la solicitud interna y freeze: MAGIA-493 / MAGIA-479
+- UI de aprobación EGP: MAGIA-480
+- Validaciones RN-C20 / RN-C21
+- Acreditación efectiva en cuenta corriente del Proveedor
+
+Notas / preguntas abiertas:
+- Path y autenticación reales de CORE (S-01)
+- Si CORE es asíncrono, el callback que trae nroPrestamo dispara T-11 y 545/546
+"
+"Story";"MAGIA-545";"Notificación al EGP del préstamo generado";"Como aprobador o operador del EGP
+quiero recibir una notificación cuando CORE genera el préstamo del adelanto que aprobé
+para confirmar que la operación quedó formalizada en el banco y que las facturas pasaron a Financiada
+
+Valor de negocio: Cierra el ciclo de control del EGP: no basta con haber aprobado en Atlas; el EGP necesita evidencia de que el préstamo existe en CORE (número de préstamo) y de qué facturas quedaron financiadas. Distinto del aviso de pedido de adelanto (MAGIA-494).
+
+Escenarios fuente:
+1. Feliz — CORE devolvió nro. de préstamo: se notifica al EGP el préstamo generado (facturas, montos, proveedor).
+2. Feliz — Operación múltiple: una sola notificación al EGP con el detalle de las N facturas y un único nro. de préstamo.
+3. Alternativo — Fallo del canal de notificación: el préstamo y el estado Financiada no se revierten; se registra y se reintenta.
+4. Error — CORE no devolvió nro. de préstamo: no se notifica al EGP.
+5. Error — EGP sin destinatarios en el ABM: no se envía mail; se registra NOTIF_DESTINATARIO_NO_CONFIGURADO; facturas siguen Financiada.
+
+Criterios de aceptación:
+1. [Feliz] Se dispara únicamente cuando MAGIA-544 persistió un número de préstamo (RN-CORE-01, RN-CORE-04).
+2. [Feliz] El payload incluye nroPrestamo, EGP, Proveedor, lista de facturas, monto bruto y marca temporal. El mail usa template CORE con MSG-N01: ""Préstamo {nroPrestamo} generado — adelanto Confirming"" y MSG-N02: ""Se generó el préstamo {nroPrestamo} por el adelanto de {n} factura(s) del Proveedor {proveedor}. Monto bruto {montoBruto} {moneda}. Las facturas pasaron a estado Financiada.""
+3. [Feliz] Los destinatarios se resuelven por ABM de notificaciones para el ente EGP (RN-CORE-05).
+4. [Feliz] En operación múltiple se envía una notificación al EGP con todas las facturas del préstamo (RN-CORE-06).
+5. [Alternativo] Si el envío falla, las facturas permanecen Financiada y el error queda registrado para reintento; no se llama a reversión CORE.
+6. [Error] Si CORE no generó el préstamo, no se envía MAGIA-545.
+7. [Error] Si no hay destinatarios configurados, se registra MSG-N05: ""No hay destinatarios configurados para notificar el préstamo {nroPrestamo} al ente {ente}."" y código NOTIF_DESTINATARIO_NO_CONFIGURADO.
+8. [Validación] Cada intento queda auditado: destinatarios, nroPrestamo, resultado, timestamp.
+
+Escenarios BDD (Gherkin):
+Característica: Notificación al EGP del préstamo generado
+  Antecedentes:
+    Dado que el EGP ya aprobó la solicitud de adelanto
+    Y las facturas estaban en ""Pendiente de desembolso""
+
+  Escenario: Préstamo generado se notifica al EGP
+    Dado que CORE devolvió el número de préstamo ""PREST-1001""
+    Y las facturas de la solicitud pasaron a ""Financiada""
+    Cuando se dispara la notificación al EGP
+    Entonces el EGP recibe el aviso MSG-N01: ""Préstamo {nroPrestamo} generado — adelanto Confirming""
+    Y el contenido corresponde a MSG-N02: ""Se generó el préstamo {nroPrestamo} por el adelanto de {n} factura(s) del Proveedor {proveedor}. Monto bruto {montoBruto} {moneda}. Las facturas pasaron a estado Financiada.""
+    Y el payload incluye el número de préstamo ""PREST-1001"" y las facturas asociadas
+
+  Escenario: Operación múltiple — una sola notificación
+    Dado un préstamo ""PREST-1002"" que agrupa cuatro facturas del mismo EGP-Proveedor-moneda
+    Cuando se dispara la notificación al EGP
+    Entonces el EGP recibe una única notificación con las cuatro facturas y el número ""PREST-1002""
+
+  Escenario: Fallo de envío no revierte el préstamo
+    Dado que CORE devolvió el número de préstamo ""PREST-1001""
+    Y las facturas están en ""Financiada""
+    Y el servicio de notificaciones no responde
+    Cuando se intenta notificar al EGP
+    Entonces las facturas permanecen en ""Financiada""
+    Y el error de envío queda registrado para reintento
+
+  Escenario: CORE con error no notifica al EGP
+    Dado que CORE no devolvió número de préstamo
+    Y las facturas volvieron a ""Pendiente aprobación EGP""
+    Entonces no se envía notificación MAGIA-545 al EGP
+
+  Escenario: EGP sin destinatarios configurados
+    Dado que CORE devolvió el número de préstamo ""PREST-1001""
+    Y el ABM de notificaciones no tiene destinatarios para ese EGP
+    Cuando se evalúa el envío
+    Entonces no se envía el mail
+    Y queda registrado MSG-N05: ""No hay destinatarios configurados para notificar el préstamo {nroPrestamo} al ente {ente}.""
+
+Fuera de alcance:
+- Pedido de adelanto al EGP (antes de aprobar): MAGIA-494
+- Notificación al Proveedor: MAGIA-546
+- Diseño HTML del mail (CORE)
+- Pantalla nueva o bandeja in-app
+
+Notas / preguntas abiertas:
+- Copy de MSG-N01 / MSG-N02 pendiente de validación UX y plantilla CORE (S-03)
+- Recortar MAGIA-494 para no duplicar aviso de crédito generado (S-02)
+
+Chequeo INVEST: I (depende de MAGIA-544) · N · V · E · S · T
+"
+"Story";"MAGIA-546";"Notificación al Proveedor de la factura generada";"Como usuario o operador del Proveedor
+quiero recibir una notificación con las facturas que CORE asoció al préstamo generado
+para saber qué documentos quedaron financiados y con qué número de préstamo
+
+Valor de negocio: El Proveedor no opera la aprobación del EGP; su necesidad es saber cuáles de sus facturas quedaron en el préstamo CORE (números de factura persistidos en el core) y el identificador del crédito. No cubre el alta de factura (MAGIA-484).
+
+Escenarios fuente:
+1. Feliz — CORE devolvió nro. de préstamo: se notifica al Proveedor las facturas asociadas (nro. factura, nro. préstamo, monto neto).
+2. Feliz — Operación múltiple: una sola notificación al Proveedor con las N facturas.
+3. Alternativo — Fallo del canal: Financiada se mantiene; se registra y se reintenta.
+4. Error — CORE no devolvió nro. de préstamo: no se notifica al Proveedor.
+5. Error — Proveedor sin destinatarios en el ABM: se registra; facturas siguen Financiada.
+
+Criterios de aceptación:
+1. [Feliz] Se dispara únicamente cuando MAGIA-544 persistió un número de préstamo (RN-CORE-01, RN-CORE-04).
+2. [Feliz] El payload incluye nroPrestamo, Proveedor, EGP, lista de facturas y monto neto de la simulación. El mail usa template CORE con MSG-N03: ""Factura(s) asociada(s) al préstamo {nroPrestamo}"" y MSG-N04: ""El préstamo {nroPrestamo} quedó generado en CORE. Facturas incluidas: {listaFacturas}. Monto neto a acreditar (estimativo de simulación): {montoNeto} {moneda}.""
+3. [Feliz] Los destinatarios se resuelven por ABM para el ente Proveedor (RN-CORE-05).
+4. [Feliz] En operación múltiple se envía una notificación con todas las facturas (RN-CORE-06).
+5. [Alternativo] El fallo de MAGIA-546 no revierte Financiada ni bloquea MAGIA-545.
+6. [Error] Si CORE no generó el préstamo, no se envía MAGIA-546.
+7. [Error] Sin destinatarios: se registra MSG-N05: ""No hay destinatarios configurados para notificar el préstamo {nroPrestamo} al ente {ente}."" con código NOTIF_DESTINATARIO_NO_CONFIGURADO.
+8. [Validación] Cada intento queda auditado: destinatarios, nroPrestamo, facturas incluidas, resultado, timestamp.
+9. [Validación] El aviso no promete que el dinero ya está en la cuenta del Proveedor: informa facturas financiadas y nro. de préstamo.
+
+Escenarios BDD (Gherkin):
+Característica: Notificación al Proveedor de las facturas asociadas al préstamo
+  Antecedentes:
+    Dado que el Proveedor solicitó el adelanto
+    Y el EGP ya aprobó la solicitud
+
+  Escenario: Préstamo generado notifica las facturas al Proveedor
+    Dado que CORE devolvió el número de préstamo ""PREST-1001""
+    Y asoció la factura ""001-001-0004001"" a ese préstamo
+    Y la factura pasó a ""Financiada""
+    Cuando se dispara la notificación al Proveedor
+    Entonces el Proveedor recibe el aviso MSG-N03: ""Factura(s) asociada(s) al préstamo {nroPrestamo}""
+    Y el contenido corresponde a MSG-N04: ""El préstamo {nroPrestamo} quedó generado en CORE. Facturas incluidas: {listaFacturas}. Monto neto a acreditar (estimativo de simulación): {montoNeto} {moneda}.""
+    Y el payload incluye ""PREST-1001"" y la factura ""001-001-0004001""
+
+  Escenario: Operación múltiple — una sola notificación al Proveedor
+    Dado un préstamo ""PREST-1002"" con cuatro facturas
+    Cuando se dispara la notificación al Proveedor
+    Entonces el Proveedor recibe una única notificación con las cuatro facturas
+
+  Escenario: Fallo de envío no revierte Financiada
+    Dado que las facturas están en ""Financiada"" con préstamo ""PREST-1001""
+    Y el servicio de notificaciones no responde
+    Cuando se intenta notificar al Proveedor
+    Entonces las facturas permanecen en ""Financiada""
+    Y el error queda registrado para reintento
+
+  Escenario: CORE con error no notifica al Proveedor
+    Dado que CORE no devolvió número de préstamo
+    Entonces no se envía notificación MAGIA-546 al Proveedor
+
+  Escenario: Proveedor sin destinatarios configurados
+    Dado que CORE devolvió el número de préstamo ""PREST-1001""
+    Y el ABM no tiene destinatarios para ese Proveedor
+    Cuando se evalúa el envío
+    Entonces no se envía el mail
+    Y queda registrado MSG-N05: ""No hay destinatarios configurados para notificar el préstamo {nroPrestamo} al ente {ente}.""
+
+Fuera de alcance:
+- Notificación de alta de factura al EGP: MAGIA-484
+- Notificación al EGP del préstamo: MAGIA-545
+- Aviso de rechazo EGP: MAGIA-481
+- Confirmación de acreditamiento en cuenta (tesorería / extracto)
+- Diseño HTML del mail (CORE)
+
+Notas / preguntas abiertas:
+- El título Jira dice factura generada; en AC se operacionaliza como facturas asociadas en CORE al préstamo (SUP-05)
+- Copy MSG-N03 / MSG-N04 pendiente de UX / plantilla CORE (S-03)
+
+Chequeo INVEST: I (depende de MAGIA-544) · N · V · E · S · T
+"
